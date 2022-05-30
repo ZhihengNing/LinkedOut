@@ -2,3 +2,6 @@
 /**/bin/**
 *.csproj
 /**/obj/**
+config.json
+appsettings.*.json
+!appsettings.Env.Template.json
