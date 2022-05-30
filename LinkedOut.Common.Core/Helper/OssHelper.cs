@@ -4,25 +4,29 @@ using LinkedOut.Common.Domain;
 using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Exception;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace LinkedOut.Common.Helper;
 
 public static class OssHelper
 {
+    private static readonly JObject Json = JsonHelper
+        .ReadConfigJson("../LinkedOut.Common.Core/config.json")
+        .Value<JObject>("oss")!;
 
-    private const string Endpoint = "oss-cn-shanghai.aliyuncs.com";
+    private static readonly string Endpoint = Json.Value<string>("endpoint")!;
 
-    private const string AccessKeyId = "LTAI5tBG4652Uuc6Ljxi5hpu";
+    private static readonly string AccessKeyId = Json.Value<string>("accessKeyId")!;
 
-    private const string AccessKeySecret = "1SeLabxEsZdAPlRHN2kPkPzri3sxYi";
+    private static readonly string AccessKeySecret = Json.Value<string>("accessKeySecret")!;
 
-    private const string BucketName = "linkedout-net-bucket";
+    private static readonly string BucketName = Json.Value<string>("bucketName")!;
 
-    private const string Prefix = $"https://{BucketName}.{Endpoint}/";
+    private static readonly string Prefix = $"https://{BucketName}.{Endpoint}/";
     
-
     private static readonly OssClient Client = new(Endpoint, AccessKeyId, AccessKeySecret);
-
+    
     private static void PutObject(IFormFile file, string path)
     {
         if (file == null)
