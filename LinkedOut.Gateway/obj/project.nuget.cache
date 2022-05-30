@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vq/f5WJG6oEvvbwiu8SnoOwDTODYIP/DbzO4FEoHuJKU8SmlJJT1pd9taB6c8bwNKJ5vDSvj4Q/IdyhOTEDhFw==",
+  "dgSpecHash": "iDZOLan06BmeBSH7au2s/sfcsh7ZMfNwpDHiALGv6ih0psgOy3CGWdyTSFtdICXJdC6YIcVFvX/ZhYOvaJeteQ==",
   "success": true,
-  "projectFilePath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Gateway\\LinkedOut.Gateway.csproj",
+  "projectFilePath": "E:\\code\\LinkedOut\\LinkedOut.Gateway\\LinkedOut.Gateway.csproj",
   "expectedPackageFiles": [
     "D:\\NuGet\\aliyun.oss.sdk.netcore\\2.13.0\\aliyun.oss.sdk.netcore.2.13.0.nupkg.sha512",
     "D:\\NuGet\\easycaching.core\\1.4.1\\easycaching.core.1.4.1.nupkg.sha512",

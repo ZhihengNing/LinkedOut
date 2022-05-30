@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JtnKtAZN4iGQ0dsPljibSy8DTJAAhsZuLjTy4Z7iaAWAxc+rqkCd2nyTSlBfyYaz+bh0iorOlu5rc5uEVLEJ8w==",
+  "dgSpecHash": "D3DZSsj/iUgivODxyMNxg1SDGEbLy1QFKzQRy0rIsNiHOOwj0K35CvnNdJfL7brh9Hta1eylmKDHmkd/kTi+0Q==",
   "success": true,
-  "projectFilePath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Recruitment\\LinkedOut.Recruitment.csproj",
+  "projectFilePath": "E:\\code\\LinkedOut\\LinkedOut.Recruitment\\LinkedOut.Recruitment.csproj",
   "expectedPackageFiles": [
     "D:\\NuGet\\aliyun.oss.sdk.netcore\\2.13.0\\aliyun.oss.sdk.netcore.2.13.0.nupkg.sha512",
     "D:\\NuGet\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",

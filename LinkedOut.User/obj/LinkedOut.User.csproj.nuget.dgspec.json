@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\code\\Rider\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj": {}
+    "E:\\code\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj": {}
   },
   "projects": {
-    "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
+    "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj",
+        "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj",
         "projectName": "LinkedOut.Common.Core",
-        "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj",
+        "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj",
         "packagesPath": "D:\\NuGet",
-        "outputPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\obj\\",
+        "outputPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\code\\Rider\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {
-                "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj"
+              "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {
+                "projectPath": "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj"
               }
             }
           }
@@ -93,14 +93,14 @@
         }
       }
     },
-    "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
+    "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj",
+        "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj",
         "projectName": "LinkedOut.Common.Feign",
-        "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj",
+        "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj",
         "packagesPath": "D:\\NuGet",
-        "outputPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\obj\\",
+        "outputPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -115,8 +115,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
-                "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
+              "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
+                "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
               }
             }
           }
@@ -155,14 +155,14 @@
         }
       }
     },
-    "E:\\code\\Rider\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {
+    "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\code\\Rider\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
+        "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
         "projectName": "LinkedOut.DB",
-        "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
+        "projectPath": "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
         "packagesPath": "D:\\NuGet",
-        "outputPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.DB\\obj\\",
+        "outputPath": "E:\\code\\LinkedOut\\LinkedOut.DB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -225,14 +225,14 @@
         }
       }
     },
-    "E:\\code\\Rider\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj": {
+    "E:\\code\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\code\\Rider\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
+        "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
         "projectName": "LinkedOut.User",
-        "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
+        "projectPath": "E:\\code\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
         "packagesPath": "D:\\NuGet",
-        "outputPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.User\\obj\\",
+        "outputPath": "E:\\code\\LinkedOut\\LinkedOut.User\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -247,11 +247,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
-                "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
+              "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
+                "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
               },
-              "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
-                "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
+              "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
+                "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
               }
             }
           }

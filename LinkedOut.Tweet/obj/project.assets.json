@@ -2678,11 +2678,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Tweet\\LinkedOut.Tweet.csproj",
+      "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.Tweet\\LinkedOut.Tweet.csproj",
       "projectName": "LinkedOut.Tweet",
-      "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Tweet\\LinkedOut.Tweet.csproj",
+      "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Tweet\\LinkedOut.Tweet.csproj",
       "packagesPath": "D:\\NuGet",
-      "outputPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Tweet\\obj\\",
+      "outputPath": "E:\\code\\LinkedOut\\LinkedOut.Tweet\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2697,11 +2697,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
-              "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
+            "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
+              "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
             },
-            "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
-              "projectPath": "E:\\code\\Rider\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
+            "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
+              "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
             }
           }
         }

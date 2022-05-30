@@ -7,4 +7,4 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = LinkedOut.Common
-build_property.ProjectDir = E:\code\Rider\LinkedOut\LinkedOut.Common.Core\
+build_property.ProjectDir = E:\code\LinkedOut\LinkedOut.Common.Core\
