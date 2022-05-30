@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedOut.Common.Core", "LinkedOut.Common.Core\LinkedOut.Common.Core.csproj", "{73699A8C-FBDE-4DF3-8C7F-CA104B94894B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedOut.Tweet", "LinkedOut.Tweet\LinkedOut.Tweet.csproj", "{4855FA3C-0CAC-43B9-8C25-2712980E9492}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedOut.User", "LinkedOut.User\LinkedOut.User.csproj", "{AB901A4D-76A1-4B3B-BC79-94824C0827EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedOut.Recruitment", "LinkedOut.Recruitment\LinkedOut.Recruitment.csproj", "{126A90A9-4BA4-4AD5-8D92-B90429F006D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{61E3A6EC-E3E4-4147-8064-7D878FC8C0E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedOut.DB", "LinkedOut.DB\LinkedOut.DB.csproj", "{69AC9BD3-824E-4E4D-B841-06D81E76F213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedOut.Gateway", "LinkedOut.Gateway\LinkedOut.Gateway.csproj", "{622D2E51-447A-4B98-8AAF-EC1787E96D16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8FB52098-70B7-4D1B-A09D-C7386AE3F7A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedOut.Common.Feign", "LinkedOut.Common.Feign\LinkedOut.Common.Feign.csproj", "{116B8EA3-E21A-4C21-B904-7600679C662A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73699A8C-FBDE-4DF3-8C7F-CA104B94894B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73699A8C-FBDE-4DF3-8C7F-CA104B94894B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73699A8C-FBDE-4DF3-8C7F-CA104B94894B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73699A8C-FBDE-4DF3-8C7F-CA104B94894B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4855FA3C-0CAC-43B9-8C25-2712980E9492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4855FA3C-0CAC-43B9-8C25-2712980E9492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4855FA3C-0CAC-43B9-8C25-2712980E9492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4855FA3C-0CAC-43B9-8C25-2712980E9492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB901A4D-76A1-4B3B-BC79-94824C0827EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB901A4D-76A1-4B3B-BC79-94824C0827EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB901A4D-76A1-4B3B-BC79-94824C0827EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB901A4D-76A1-4B3B-BC79-94824C0827EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{126A90A9-4BA4-4AD5-8D92-B90429F006D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{126A90A9-4BA4-4AD5-8D92-B90429F006D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{126A90A9-4BA4-4AD5-8D92-B90429F006D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{126A90A9-4BA4-4AD5-8D92-B90429F006D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69AC9BD3-824E-4E4D-B841-06D81E76F213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69AC9BD3-824E-4E4D-B841-06D81E76F213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69AC9BD3-824E-4E4D-B841-06D81E76F213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69AC9BD3-824E-4E4D-B841-06D81E76F213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{622D2E51-447A-4B98-8AAF-EC1787E96D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{622D2E51-447A-4B98-8AAF-EC1787E96D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{622D2E51-447A-4B98-8AAF-EC1787E96D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{622D2E51-447A-4B98-8AAF-EC1787E96D16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{116B8EA3-E21A-4C21-B904-7600679C662A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{116B8EA3-E21A-4C21-B904-7600679C662A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{116B8EA3-E21A-4C21-B904-7600679C662A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{116B8EA3-E21A-4C21-B904-7600679C662A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{69AC9BD3-824E-4E4D-B841-06D81E76F213} = {61E3A6EC-E3E4-4147-8064-7D878FC8C0E4}
+		{73699A8C-FBDE-4DF3-8C7F-CA104B94894B} = {8FB52098-70B7-4D1B-A09D-C7386AE3F7A4}
+		{116B8EA3-E21A-4C21-B904-7600679C662A} = {8FB52098-70B7-4D1B-A09D-C7386AE3F7A4}
+	EndGlobalSection
+EndGlobal

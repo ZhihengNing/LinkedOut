@@ -1,0 +1,5 @@
+﻿{
+  "zero": "dotnet ef dbcontext scaffold \"Server=175.24.202.178;port=3306;Database=linkedOut; User=root;Password=123456;\" Pomelo.EntityFrameworkCore.Mysql",
+  "one": "dotnet ef migrations add {{xxx}}",
+  "two": "dotnet ef database update"
+}

@@ -1,0 +1,14 @@
+E:\code\Rider\LinkedOut\LinkedOut.DB\bin\Debug\net6.0\LinkedOut.DB.deps.json
+E:\code\Rider\LinkedOut\LinkedOut.DB\bin\Debug\net6.0\LinkedOut.DB.runtimeconfig.json
+E:\code\Rider\LinkedOut\LinkedOut.DB\bin\Debug\net6.0\LinkedOut.DB.dll
+E:\code\Rider\LinkedOut\LinkedOut.DB\bin\Debug\net6.0\LinkedOut.DB.pdb
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.csproj.AssemblyReference.cache
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.GeneratedMSBuildEditorConfig.editorconfig
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.AssemblyInfoInputs.cache
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.AssemblyInfo.cs
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.csproj.CoreCompileInputs.cache
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.dll
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\refint\LinkedOut.DB.dll
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.pdb
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\LinkedOut.DB.genruntimeconfig.cache
+E:\code\Rider\LinkedOut\LinkedOut.DB\obj\Debug\net6.0\ref\LinkedOut.DB.dll

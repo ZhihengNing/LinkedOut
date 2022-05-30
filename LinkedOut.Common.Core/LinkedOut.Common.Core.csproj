@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>LinkedOut.Common</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.13.0" />
+      <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.11" />
+      <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+      <PackageReference Include="NUnit" Version="3.13.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LinkedOut.DB\LinkedOut.DB.csproj" />
+    </ItemGroup>
+
+</Project>
