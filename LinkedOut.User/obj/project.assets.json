@@ -2737,11 +2737,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
+      "projectUniqueName": "E:\\code\\NET\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
       "projectName": "LinkedOut.User",
-      "projectPath": "E:\\code\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
+      "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
       "packagesPath": "D:\\NuGet",
-      "outputPath": "E:\\code\\LinkedOut\\LinkedOut.User\\obj\\",
+      "outputPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.User\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2756,11 +2756,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
-              "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
+            "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
+              "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
             },
-            "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
-              "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
+            "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
+              "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
             }
           }
         }

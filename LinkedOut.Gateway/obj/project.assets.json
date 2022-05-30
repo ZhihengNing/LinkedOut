@@ -3159,11 +3159,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.Gateway\\LinkedOut.Gateway.csproj",
+      "projectUniqueName": "E:\\code\\NET\\LinkedOut\\LinkedOut.Gateway\\LinkedOut.Gateway.csproj",
       "projectName": "LinkedOut.Gateway",
-      "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Gateway\\LinkedOut.Gateway.csproj",
+      "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Gateway\\LinkedOut.Gateway.csproj",
       "packagesPath": "D:\\NuGet",
-      "outputPath": "E:\\code\\LinkedOut\\LinkedOut.Gateway\\obj\\",
+      "outputPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Gateway\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3178,8 +3178,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
-              "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
+            "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
+              "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
             }
           }
         }

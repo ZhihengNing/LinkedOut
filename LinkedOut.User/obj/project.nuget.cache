@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "r0QOyUAEmjSgM9ljvife8vhBUQrlEbNDKWrc8H5HChJTT65s0MuqlWIxD70kaNTkL0mf8xghCk9+VmPz8uJirA==",
+  "dgSpecHash": "/h3Js/3jeS2A5n7vcNPPT2ktC9Fs3NXmOZ9/BELuadBOI2dQXjGB/LBVSJWLdLDEuC6nFPkAZZ8UQ3o/9eMF3A==",
   "success": true,
-  "projectFilePath": "E:\\code\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
+  "projectFilePath": "E:\\code\\NET\\LinkedOut\\LinkedOut.User\\LinkedOut.User.csproj",
   "expectedPackageFiles": [
     "D:\\NuGet\\aliyun.oss.sdk.netcore\\2.13.0\\aliyun.oss.sdk.netcore.2.13.0.nupkg.sha512",
     "D:\\NuGet\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",

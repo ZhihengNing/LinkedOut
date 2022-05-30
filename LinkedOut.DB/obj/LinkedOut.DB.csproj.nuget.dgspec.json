@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {}
+    "E:\\code\\NET\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {}
   },
   "projects": {
-    "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {
+    "E:\\code\\NET\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
+        "projectUniqueName": "E:\\code\\NET\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
         "projectName": "LinkedOut.DB",
-        "projectPath": "E:\\code\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
+        "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.DB\\LinkedOut.DB.csproj",
         "packagesPath": "D:\\NuGet",
-        "outputPath": "E:\\code\\LinkedOut\\LinkedOut.DB\\obj\\",
+        "outputPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.DB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"

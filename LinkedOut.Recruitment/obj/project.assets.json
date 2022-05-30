@@ -2678,11 +2678,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\code\\LinkedOut\\LinkedOut.Recruitment\\LinkedOut.Recruitment.csproj",
+      "projectUniqueName": "E:\\code\\NET\\LinkedOut\\LinkedOut.Recruitment\\LinkedOut.Recruitment.csproj",
       "projectName": "LinkedOut.Recruitment",
-      "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Recruitment\\LinkedOut.Recruitment.csproj",
+      "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Recruitment\\LinkedOut.Recruitment.csproj",
       "packagesPath": "D:\\NuGet",
-      "outputPath": "E:\\code\\LinkedOut\\LinkedOut.Recruitment\\obj\\",
+      "outputPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Recruitment\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\86180\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2697,11 +2697,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
-              "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
+            "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj": {
+              "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj"
             },
-            "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
-              "projectPath": "E:\\code\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
+            "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj": {
+              "projectPath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Feign\\LinkedOut.Common.Feign.csproj"
             }
           }
         }

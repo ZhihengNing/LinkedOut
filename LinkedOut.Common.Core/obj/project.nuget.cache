@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GNc4ciIEE6W0jHj0f0aoo2hbD4eCfzVa/vJNrWisKXAydcNAypa0xQKk19rZdDe1qwIoVQCOGNasVqOs7gn4tg==",
+  "dgSpecHash": "f70hJAdMaMchHay9Byi29ry0auB1ddXcIKJ6qHNDTQgzR76mH9Zh2NhSJUqIpTJ9yjorfh7nk4ZDekzNP9xURg==",
   "success": true,
-  "projectFilePath": "E:\\code\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj",
+  "projectFilePath": "E:\\code\\NET\\LinkedOut\\LinkedOut.Common.Core\\LinkedOut.Common.Core.csproj",
   "expectedPackageFiles": [
     "D:\\NuGet\\aliyun.oss.sdk.netcore\\2.13.0\\aliyun.oss.sdk.netcore.2.13.0.nupkg.sha512",
     "D:\\NuGet\\igeekfan.aspnetcore.knife4jui\\0.0.11\\igeekfan.aspnetcore.knife4jui.0.0.11.nupkg.sha512",
