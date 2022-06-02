@@ -26,7 +26,7 @@ public class JobExperience
     /// <summary>
     /// 用户Id
     /// </summary>
-    public int? UnifiedId { get; set; }
+    public int UnifiedId { get; set; }
     /// <summary>
     /// 创建时间
     /// </summary>

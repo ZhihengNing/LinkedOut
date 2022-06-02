@@ -1,4 +1,5 @@
-﻿using LinkedOut.Common.Api;
+﻿using System.ComponentModel.DataAnnotations;
+using LinkedOut.Common.Api;
 using LinkedOut.Common.Attribute;
 using LinkedOut.Common.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -19,62 +20,92 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost("register",Name="注册")]
+    [HttpPost("register", Name = "注册")]
     public async Task<MessageModel<int>> Register([FromBody] DB.Entity.User user)
     {
-        if (user.UserName == null)
+        if (string.IsNullOrEmpty(user.Password))
         {
-            throw new ApiException("用户名不能为空");
+            throw new ValidateException("密码不能为空");
         }
+
+        if (string.IsNullOrEmpty(user.UserType))
+        {
+            throw new ValidateException("用户类型不能为空");
+        }
+
+        if (string.IsNullOrEmpty(user.Email))
+        {
+            throw new ValidateException("邮箱不能为空");
+        }
+        
+        if (string.IsNullOrEmpty(user.UserName))
+        {
+            throw new ValidateException("用户名不能为空");
+        }
+        
 
         return MessageModel<int>.Success(await _userService.Register(user));
     }
 
     [NoTransaction]
-    [HttpPost("login",Name="登录")]
+    [HttpPost("login", Name = "登录")]
     public async Task<MessageModel<object>> Login([FromBody] UserLoginVo user)
     {
-        var response = HttpContext.Response;
+        if (string.IsNullOrEmpty(user.Password))
+        {
+            throw new ValidateException("密码不能为空");
+        }
+
+        if (string.IsNullOrEmpty(user.UserType))
+        {
+            throw new ValidateException("用户类型不能为空");
+        }
         
-        await _userService.Login(user,response);
+        if (string.IsNullOrEmpty(user.UserName))
+        {
+            throw new ValidateException("用户名不能为空");
+        }
+
+        var response = HttpContext.Response;
+
+        await _userService.Login(user, response);
 
         return MessageModel.Success();
     }
 
     [NoTransaction]
-    [HttpPost("email",Name="发送邮件")]
-    public async Task<MessageModel<string>> SendEmail([FromQuery] string email)
+    [HttpPost("email", Name = "发送邮件")]
+    public async Task<MessageModel<string>> SendEmail([Required] string email)
     {
         var result = await _userService.SendEmail(email);
-        
+
         return MessageModel<string>.Success(result);
     }
 
-    [NoTransaction]
-    [HttpGet("userInfo",Name="获取用户信息")]
-    public async Task<MessageModel<UserInfoVo<string>>> QueryUserInfo([FromQuery] int uid, [FromQuery] int sid)
+    [HttpPut("subscription",Name="关注某人")]
+    public async Task<MessageModel<object>> SubscribeUser([Required] int unifiedId,
+        [Required] int subscribeId)
     {
-        var userInfo = await _userService.GetUserInfo(uid, sid);
-
-        return MessageModel<UserInfoVo<string>>.Success(userInfo);
-    }
-
-    [HttpPost("userInfo",Name="修改用户信息")]
-    public async Task<MessageModel<object>> ModifyUserInfo([FromForm] UserInfoVo<IFormFile> userVo)
-    {
-        await _userService.UpdateUserInfo(userVo);
-
+        await _userService.SubscribeUser(unifiedId,subscribeId);
+        
         return MessageModel.Success();
     }
 
-    [NoTransaction]
-    [HttpGet("",Name = "查询用户信息")]
-    public async Task<MessageModel<DB.Entity.User>> QueryUserById([FromQuery] int unifiedId)
+    [HttpDelete("subscription",Name="取消关注")]
+    public async Task<MessageModel<object>> UnsubscribeUser([Required] int unifiedId, [Required] int subscribeId)
     {
+        await _userService.UnsubscribeUser(unifiedId, subscribeId);
         
-        
-        return MessageModel<DB.Entity.User>.Success();
+        return MessageModel.Success();
     }
-    
-    
+
+    [HttpGet("recommend")]
+    public async Task<MessageModel<List<RecommendUserVo>>> QueryRecommendList([Required] int unifiedId)
+    {
+        var recommendUserVos = await _userService.GetRecommendList(unifiedId);
+        
+        return MessageModel<List<RecommendUserVo>>.Success(recommendUserVos);
+    }
+
+
 }

@@ -1,5 +1,6 @@
 ﻿using LinkedOut.DB;
-using LinkedOut.User.Domain.Bo;
+using LinkedOut.DB.Entity;
+using LinkedOut.User.Domain.Enum;
 
 namespace LinkedOut.User.Manager;
 
@@ -12,14 +13,15 @@ public class SubscribedManager
         _context = context;
     }
 
-    public SubscribedState GetRelation(int firstUserId, int secondUserId)
+    public (SubscribedState SubScribed, Subscribed? relation) GetRelation(int firstUserId, int secondUserId)
     {
         if (firstUserId == secondUserId)
         {
-            return SubscribedState.Same;
+            return (SubscribedState.Same,null);
         }
+
         var relation = _context.Subscribeds.Select(o => o)
             .SingleOrDefault(o => o.FirstUserId == o.SecondUserId);
-        return relation == null ? SubscribedState.NoSubscribed : SubscribedState.SubScribed;
+        return relation == null ? (SubscribedState.NoSubscribed, null) : (SubscribedState.SubScribed, relation);
     }
 }

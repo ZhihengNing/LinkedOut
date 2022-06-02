@@ -23,6 +23,7 @@ public static class ModelConfig
         });
         services.AddScoped<LinkedOutContext>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserInfoService, UserInfoService>();
         services.AddScoped<IEduService, EduService>();
         services.AddScoped<IEnterpriseService, EnterpriseService>();
         services.AddScoped<IJobService, JobService>();
@@ -31,6 +32,7 @@ public static class ModelConfig
         services.AddScoped<SubscribedManager>();
         services.AddScoped<UserManager>();
         services.AddScoped<EnterpriseInfoManager>();
+        services.AddScoped<RecommendManager>();
 
         return services;
     }

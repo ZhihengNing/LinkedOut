@@ -34,8 +34,17 @@ public class JobService : IJobService
         return Task.FromResult(jobVos);
     }
 
-    public async Task InsertJobExperience(JobExperience jobExperience)
+    public async Task InsertJobExperience(JobExperienceVo jobExperienceVo)
     {
+        var jobExperience = new JobExperience
+        {
+            Description = jobExperienceVo.Description,
+            PositionType = jobExperienceVo.PositionType,
+            EnterpriseName = jobExperienceVo.EnterpriseName,
+            StartTime = jobExperienceVo.StartTime,
+            EndTime = jobExperienceVo.EndTime,
+            UnifiedId = (int) jobExperienceVo.UnifiedId
+        };
         await _context.JobExperiences.AddAsync(jobExperience);
         await _context.SaveChangesAsync();
     }
@@ -52,3 +61,4 @@ public class JobService : IJobService
         
     }
 }
+

@@ -37,15 +37,16 @@ public class EnterpriseService : IEnterpriseService
         }
 
         var enterpriseInfoVo = new EnterpriseInfoVo<string>();
-        var subscribedState = _subscribedManager.GetRelation(uid, sid);
-        
+        var (subscribedState, _) = _subscribedManager.GetRelation(uid, sid);
+
         var fansNum = _context.Subscribeds.CountAsync(o => o.FirstUserId == sid);
 
         var followNum = _context.Subscribeds.CountAsync(o => o.SecondUserId == sid);
 
-        var whenAll = await Task.WhenAll(fansNum,followNum);
+        var whenAll = await Task.WhenAll(fansNum, followNum);
         var combineEnterAndEnterInfo = _enterpriseInfoManager
-            .CombineEnterAndEnterInfo((int) subscribedState, whenAll[0], whenAll[1], enterpriseById, enterpriseInfoById);
+            .CombineEnterAndEnterInfo((int) subscribedState, whenAll[0], whenAll[1], enterpriseById,
+                enterpriseInfoById);
 
         return combineEnterAndEnterInfo;
     }
@@ -53,7 +54,7 @@ public class EnterpriseService : IEnterpriseService
 
     public async Task UpdateEnterpriseInfo(EnterpriseInfoVo<IFormFile> enterpriseInfoVo)
     {
-        var unifiedId = enterpriseInfoVo.unifiedId;
+        var unifiedId =(int) enterpriseInfoVo.UnifiedId;
 
         var userById = _userManager.GetUserById(unifiedId);
         var enterpriseInfoById = _enterpriseInfoManager.GetEnterpriseInfoById(unifiedId);
@@ -62,38 +63,38 @@ public class EnterpriseService : IEnterpriseService
             throw new ApiException($"id为{unifiedId}企业不存在");
         }
 
-        var password = enterpriseInfoVo.password;
+        var password = enterpriseInfoVo.Password;
         if (!string.IsNullOrEmpty(password))
         {
             userById.Password = password;
         }
 
-        var email = enterpriseInfoVo.email;
+        var email = enterpriseInfoVo.Email;
         if (!string.IsNullOrEmpty(email))
         {
             userById.Email = email;
         }
 
-        var briefInfo = enterpriseInfoVo.briefInfo;
+        var briefInfo = enterpriseInfoVo.BriefInfo;
 
         if (!string.IsNullOrEmpty(briefInfo))
         {
             userById.BriefInfo = briefInfo;
         }
 
-        var trueName = enterpriseInfoVo.trueName;
+        var trueName = enterpriseInfoVo.TrueName;
         if (!string.IsNullOrEmpty(trueName))
         {
             userById.TrueName = trueName;
         }
 
-        var description = enterpriseInfoVo.description;
+        var description = enterpriseInfoVo.Description;
         if (!string.IsNullOrEmpty(description))
         {
             enterpriseInfoById.Description = description;
         }
 
-        var contactWay = enterpriseInfoVo.contactWay;
+        var contactWay = enterpriseInfoVo.ContactWay;
         if (!string.IsNullOrEmpty(contactWay))
         {
             enterpriseInfoById.ContactWay = contactWay;
@@ -101,15 +102,15 @@ public class EnterpriseService : IEnterpriseService
 
         var uploadAvatar = Task.Run(() =>
         {
-            var avatar = enterpriseInfoVo.avatar;
+            var avatar = enterpriseInfoVo.Avatar;
             if (avatar == null) return;
-            var url = OssHelper.UploadFile(avatar, BucketType.Avatar, unifiedId);
+            var url = OssHelper.UploadFile(avatar, BucketType.Avatar, unifiedId!);
             userById.Avatar = url;
         });
 
         var uploadBack = Task.Run(() =>
         {
-            var background = enterpriseInfoVo.back;
+            var background = enterpriseInfoVo.Back;
             if (background == null) return;
             var url = OssHelper.UploadFile(background, BucketType.Back, unifiedId);
             userById.Background = url;

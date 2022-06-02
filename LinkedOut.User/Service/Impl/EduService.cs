@@ -32,8 +32,17 @@ public class EduService: IEduService
             ).ToList());
     }
 
-    public async Task AddEduExperience(EduExperience eduExperience)
+    public async Task AddEduExperience(EduExperienceVo eduExperienceVo)
     {
+        var eduExperience = new EduExperience
+        {
+            CollegeName = eduExperienceVo.CollegeName,
+            StartTime = eduExperienceVo.StartTime,
+            EndTime = eduExperienceVo.EndTime,
+            Degree = eduExperienceVo.Degree,
+            Major = eduExperienceVo.Major,
+            UnifiedId =(int) eduExperienceVo.UnifiedId,
+        };
         var entityEntry = await _context.EduExperiences.AddAsync(eduExperience);
 
         await _context.SaveChangesAsync();

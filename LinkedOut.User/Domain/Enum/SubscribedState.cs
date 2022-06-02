@@ -1,4 +1,4 @@
-﻿namespace LinkedOut.User.Domain.Bo;
+﻿namespace LinkedOut.User.Domain.Enum;
 
 public enum SubscribedState
 {

@@ -14,10 +14,10 @@ public class EnterpriseInfoManager
         _context = context;
     }
 
-    public EnterpriseInfo? GetEnterpriseInfoById(int unifiedId)
+    public EnterpriseInfo? GetEnterpriseInfoById(int? unifiedId)
     {
-        return _context.EnterpriseInfos.Select(o=>o)
-            .SingleOrDefault(o=>o.UnifiedId==unifiedId);
+        return _context.EnterpriseInfos.Select(o => o)
+            .SingleOrDefault(o => o.UnifiedId == unifiedId);
     }
 
     public EnterpriseInfoVo<string> CombineEnterAndEnterInfo(int isSubscribed, 
@@ -28,17 +28,17 @@ public class EnterpriseInfoManager
     {
         return new EnterpriseInfoVo<string>
         {
-            isSubscribed = isSubscribed,
-            unifiedId = userById.UnifiedId,
-            avatar = userById.Avatar,
-            back = userById.Background,
-            briefInfo = userById.BriefInfo,
-            email = userById.Email,
-            trueName = userById.TrueName,
-            contactWay = enterpriseInfo.ContactWay,
-            description = enterpriseInfo.Description,
-            fansNum = fansNum,
-            followNum = followNum
+            IsSubscribed = isSubscribed,
+            UnifiedId = userById.UnifiedId,
+            Avatar = userById.Avatar,
+            Back = userById.Background,
+            BriefInfo = userById.BriefInfo,
+            Email = userById.Email,
+            TrueName = userById.TrueName,
+            ContactWay = enterpriseInfo.ContactWay,
+            Description = enterpriseInfo.Description,
+            FansNum = fansNum,
+            FollowNum = followNum
         };
     }
 

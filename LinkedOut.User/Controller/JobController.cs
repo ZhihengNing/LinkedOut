@@ -1,4 +1,6 @@
-﻿ using LinkedOut.Common.Api;
+﻿ using System.ComponentModel.DataAnnotations;
+ using LinkedOut.Common.Api;
+ using LinkedOut.Common.Exception;
  using LinkedOut.DB.Entity;
  using LinkedOut.User.Domain.Vo;
  using LinkedOut.User.Service;
@@ -19,7 +21,7 @@
      }
 
      [HttpGet("",Name = "查询工作经历")]
-     public async Task<MessageModel<List<JobVo>>> QueryJobExperience([FromQuery] int unifiedId)
+     public async Task<MessageModel<List<JobVo>>> QueryJobExperience([Required]int unifiedId)
      {
          var jobExperience = await _jobService.GetJobExperience(unifiedId);
          
@@ -27,16 +29,19 @@
      }
 
      [HttpPost("",Name = "添加工作经历")]
-     public async Task<MessageModel<object>> AddJobExperience([FromBody] JobExperience jobExperience)
+     public async Task<MessageModel<object>> AddJobExperience([FromBody] JobExperienceVo jobExperienceVo)
      {
-         await _jobService.InsertJobExperience(jobExperience);
+         if (jobExperienceVo.UnifiedId == null)
+         {
+             throw new ValidateException("用户Id不能为空");
+         }
+         await _jobService.InsertJobExperience(jobExperienceVo);
          
          return MessageModel.Success();
-
      }
 
      [HttpDelete("",Name="删除工作经历")]
-     public async Task<MessageModel<object>> DeleteJobExperience([FromQuery] int jobExperienceId)
+     public async Task<MessageModel<object>> DeleteJobExperience([Required]int jobExperienceId)
      {
          await _jobService.DeleteJobExperience(jobExperienceId);
 

@@ -10,6 +10,7 @@ public class Test
     [Test]
     public async Task TestReadFile()
     {
+
         // var readFile = await FileHelper.ReadFile("mail.html",false);
         //
         // Console.WriteLine(readFile);

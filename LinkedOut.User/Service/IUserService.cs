@@ -1,4 +1,5 @@
 ﻿using LinkedOut.Common.Domain;
+using LinkedOut.Common.Feign.User.Dto;
 using LinkedOut.User.Domain.Vo;
 
 namespace LinkedOut.User.Service;
@@ -12,10 +13,12 @@ public interface IUserService
 
     Task<string> SendEmail(string email);
 
-    Task<UserInfoVo<string>> GetUserInfo(int firstUserId, int secondUserId);
+    Task<UserDto> GetUserOeEnterpriseInfo(int unifiedId);
 
-    Task UpdateUserInfo(UserInfoVo<IFormFile> userVo);
+    Task SubscribeUser(int unifiedId, int subscribeId);
 
-    Task<DB.Entity.User> GetUserOeEnterpriseInfo(int unifiedId);
+    Task UnsubscribeUser(int unifiedId, int subscribeId);
+
+    Task<List<RecommendUserVo>> GetRecommendList(int unifiedId);
 
 }

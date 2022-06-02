@@ -1,4 +1,7 @@
-﻿namespace LinkedOut.Common.Helper;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace LinkedOut.Common.Helper;
 
 public static class FileHelper
 {
@@ -13,6 +16,14 @@ public static class FileHelper
         }
 
         return await File.ReadAllTextAsync(BasicPath + path);
+    }
+    
+    public static JObject ReadJsonFile(string path)
+    {
+        var streamReader = new StreamReader(path);
+        var jsonTextReader = new JsonTextReader(streamReader);
+        var jsonObject = (JObject) JToken.ReadFrom(jsonTextReader);
+        return jsonObject;
     }
     
 }

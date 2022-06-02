@@ -12,43 +12,43 @@ public class ResultCode
         Message = message;
     }
 
-    private static ResultCode Result(StatusCode code)
+    private static ResultCode Result(StatusCode code,string? message=null)
     {
         return code switch
         {
-            StatusCode.Success => new ResultCode(200, "操作成功"),
-            StatusCode.Failed => new ResultCode(500, "操作失败"),
-            StatusCode.Forbidden => new ResultCode(403, "没有权限访问"),
-            StatusCode.ValidateFailed => new ResultCode(404, "参数校验失败"),
-            StatusCode.Unauthorized => new ResultCode(400, "暂未登录或token已经过期"),
+            StatusCode.Success => new ResultCode(200, message??"操作成功"),
+            StatusCode.Failed => new ResultCode(500, message??"操作失败"),
+            StatusCode.Forbidden => new ResultCode(403, message??"没有权限访问"),
+            StatusCode.ValidateFailed => new ResultCode(404, message??"参数校验失败"),
+            StatusCode.Unauthorized => new ResultCode(400, message??"暂未登录或token已经过期"),
             _ => throw new ArgumentOutOfRangeException(nameof(code), code, null)
         };
     }
 
-    public static ResultCode Success()
+    public static ResultCode Success(string?message=null)
     {
-        return Result(StatusCode.Success);
+        return Result(StatusCode.Success,message);
     }
 
-    public static ResultCode Failed()
+    public static ResultCode Failed(string? message=null)
     {
-        return Result(StatusCode.Failed);
+        return Result(StatusCode.Failed,message);
     }
 
-    public static ResultCode Forbbiden()
+    public static ResultCode Forbbiden(string?message=null)
     {
-        return Result(StatusCode.Forbidden);
+        return Result(StatusCode.Forbidden,message);
     }
 
-    public static ResultCode ValidateFailed()
+    public static ResultCode ValidateFailed(string? message=null)
     {
-        return Result(StatusCode.ValidateFailed);
+        return Result(StatusCode.ValidateFailed,message);
     }
 
 
-    public static ResultCode Unauthorized()
+    public static ResultCode Unauthorized(string?message=null)
     {
-        return Result(StatusCode.Unauthorized);
+        return Result(StatusCode.Unauthorized,message);
     }
 
 

@@ -11,11 +11,5 @@ public static class JsonHelper
         return JsonConvert.DeserializeObject<JObject>(serializeObject);
     }
 
-    public static JObject ReadConfigJson(string path)
-    {
-        var streamReader = new StreamReader(path);
-        var jsonTextReader = new JsonTextReader(streamReader);
-        var jsonObject = (JObject) JToken.ReadFrom(jsonTextReader);
-        return jsonObject;
-    }
+
 }

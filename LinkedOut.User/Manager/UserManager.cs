@@ -28,7 +28,7 @@ public class UserManager
             .SingleOrDefault(o => o.UserName == userName);
         return users != null;
     }
-    
+
     public DB.Entity.User? GetUserById(int unifiedId)
     {
         return _context.Users.Select(o => o)

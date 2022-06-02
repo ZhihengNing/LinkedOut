@@ -1,11 +1,12 @@
-﻿
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 public class AddTweetVo
 {
-    public int unifiedId { get; set; }
+    public int? UnifiedId { get; set; }
+    
+    public string? Content { get; set; }
 
-    public string? content { get; set; }
-
-    public List<IFormFile>? files { get; set; }
+    public List<IFormFile>? Files { get; set; }
 }
 
 

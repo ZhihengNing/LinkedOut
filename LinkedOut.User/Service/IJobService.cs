@@ -7,7 +7,7 @@ public interface IJobService
 {
     Task<List<JobVo>> GetJobExperience(int unifiedId);
 
-    Task InsertJobExperience(JobExperience jobExperience);
+    Task InsertJobExperience(JobExperienceVo jobExperienceVo);
 
     Task DeleteJobExperience(int jobExperienceId);
 }

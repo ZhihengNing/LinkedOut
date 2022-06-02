@@ -50,8 +50,14 @@ public class CommentService : ICommentService
         return Task.FromResult(commentVos);
     }
 
-    public async Task AddComment(Comment comment)
+    public async Task AddComment(AddCommentVo commentVo)
     {
+        var comment = new Comment()
+        {
+            UnifiedId = (int)commentVo.UnifiedId,
+            Content = commentVo.Content,
+            TweetId = commentVo.TweetId
+        };
         await _context.Comments.AddAsync(comment);
 
         await _context.SaveChangesAsync();

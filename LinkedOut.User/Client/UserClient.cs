@@ -1,4 +1,5 @@
-﻿using LinkedOut.Common.Api;
+﻿using System.ComponentModel.DataAnnotations;
+using LinkedOut.Common.Api;
 using LinkedOut.Common.Exception;
 using LinkedOut.Common.Feign.User;
 using LinkedOut.Common.Feign.User.Dto;
@@ -26,18 +27,10 @@ public class UserClient :  IUserFeignClient
     }
 
     [HttpGet("userInfo")]
-    public async Task<MessageModel<UserDto>> GetUserInfo(int unifiedId)
+    public async Task<MessageModel<UserDto>> GetUserInfo([Required]int unifiedId)
     {
-        var user = await _userService.GetUserOeEnterpriseInfo(unifiedId);
+        var userDto = await _userService.GetUserOeEnterpriseInfo(unifiedId);
 
-        var userDto = new UserDto
-        {
-            UnifiedId = user.UnifiedId,
-            UserBriefInfo = user.BriefInfo,
-            UserIconUrl = user.Avatar,
-            UserName = user.UserName,
-            UserType = user.UserType
-        };
         return MessageModel<UserDto>.Success(userDto);
     }
 }

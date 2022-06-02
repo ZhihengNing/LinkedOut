@@ -3,11 +3,11 @@
 public class EnterpriseInfoVo<T> : UserVo<T>
 {
 
-    public string? contactWay { get; set; }
+    public string? ContactWay { get; set; }
 
-    public string? description { get; set; }
+    public string? Description { get; set; }
     
-    public int? fansNum { get; set; }
+    public int? FansNum { get; set; }
     
-    public int? followNum { get; set; }
+    public int? FollowNum { get; set; }
 }

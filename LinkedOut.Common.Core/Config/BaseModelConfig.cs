@@ -14,7 +14,7 @@ public static class BaseModelConfig
         {
             options.Filters.Add<GlobalExceptionFilter>();
             options.Filters.Add<ApiExceptionFilter>();
-            options.Filters.Add<TransactionFilter>();
+            // options.Filters.Add<TransactionFilter>();
             options.Filters.Add<TokenFilter>();
         });
 

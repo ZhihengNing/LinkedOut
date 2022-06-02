@@ -8,7 +8,7 @@ public interface ICommentService
 {
     Task<List<CommentVo>> GetComment(int tweetId);
     
-    Task AddComment(Comment comment);
+    Task AddComment(AddCommentVo comment);
 
     Task DeleteComment(int commentId);
 }

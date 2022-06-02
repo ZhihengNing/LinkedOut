@@ -11,8 +11,8 @@ namespace LinkedOut.Common.Helper;
 
 public static class OssHelper
 {
-    private static readonly JObject Json = JsonHelper
-        .ReadConfigJson("../LinkedOut.Common.Core/config.json")
+    private static readonly JObject Json = FileHelper
+        .ReadJsonFile("LikedOut/LinkedOut.Common.Core/config.json")
         .Value<JObject>("oss")!;
 
     private static readonly string Endpoint = Json.Value<string>("endpoint")!;
@@ -33,7 +33,6 @@ public static class OssHelper
         {
             throw new ApiException("文件不能为空");
         }
-
         try
         {
             Client.PutObject(BucketName, path, file.OpenReadStream());
@@ -51,7 +50,6 @@ public static class OssHelper
         path = $"{path}/{id}/{fileName}";
         PutObject(file, path);
         return Prefix + path;
-        
     }
 
 

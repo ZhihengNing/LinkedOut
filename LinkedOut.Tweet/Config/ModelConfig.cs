@@ -25,6 +25,7 @@ public static class ModelConfig
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ITweetService, TweetService>();
 
+        services.AddScoped<LikeManager>();
         
         // services.AddScoped<IUserRpcClient>();
         return services;

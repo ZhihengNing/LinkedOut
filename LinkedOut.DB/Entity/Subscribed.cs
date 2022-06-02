@@ -6,8 +6,8 @@ public class Subscribed
     /// 关注Id
     /// </summary>
     public int Id { get; set; }
-    public int? FirstUserId { get; set; }
-    public int? SecondUserId { get; set; }
+    public int FirstUserId { get; set; }
+    public int SecondUserId { get; set; }
     /// <summary>
     /// 创建时间
     /// </summary>

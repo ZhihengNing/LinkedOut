@@ -1,9 +1,10 @@
 ﻿using LinkedOut.Common.Domain;
-using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Exception;
+using LinkedOut.Common.Feign.User.Dto;
 using LinkedOut.Common.Helper;
 using LinkedOut.DB;
 using LinkedOut.DB.Entity;
+using LinkedOut.User.Domain.Enum;
 using LinkedOut.User.Domain.Vo;
 using LinkedOut.User.Helper;
 using LinkedOut.User.Manager;
@@ -13,20 +14,22 @@ namespace LinkedOut.User.Service.Impl;
 
 public class UserService : IUserService
 {
-    
+
     private readonly LinkedOutContext _context;
-    
+
     private readonly UserManager _userManager;
 
     private readonly SubscribedManager _subscribedManager;
 
-    private readonly UserInfoManager _userInfoManager;
-    
-    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager, UserInfoManager userInfoManager){
+    private readonly RecommendManager _recommendManager;
+
+    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager,
+        UserInfoManager userInfoManager, RecommendManager recommendManager)
+    {
         _userManager = userManager;
         _context = context;
         _subscribedManager = subscribedManager;
-        _userInfoManager = userInfoManager;
+        _recommendManager = recommendManager;
     }
 
     public async Task<int> Register(DB.Entity.User user)
@@ -36,6 +39,7 @@ public class UserService : IUserService
             throw new ApiException("名字已经存在");
         }
 
+        user.SubscribeNum = 0;
         _context.Add(user);
         await _context.SaveChangesAsync();
         var unifiedId = user.UnifiedId;
@@ -51,7 +55,7 @@ public class UserService : IUserService
             case "company":
                 await _context.EnterpriseInfos.AddAsync(new EnterpriseInfo
                 {
-                    UnifiedId = unifiedId
+                    UnifiedId = unifiedId,
                 });
                 break;
             default:
@@ -95,125 +99,79 @@ public class UserService : IUserService
         return Task.FromResult(result);
     }
 
-    public async Task<UserInfoVo<string>> GetUserInfo(int firstUserId, int secondUserId)
+    public Task<UserDto> GetUserOeEnterpriseInfo(int unifiedId)
     {
-        var userVo = new UserInfoVo<string>();
-        
-        var userInfoById = _userInfoManager.GetUserInfoById(secondUserId);
-        var userById = _userManager.GetUserById(secondUserId);
-        
-        if (userInfoById == null|| userById==null)
-        {
-            throw new ApiException($"{firstUserId}或{secondUserId}为ID的某个用户不存在");
-        }
-
-        var relation = _subscribedManager.GetRelation(firstUserId, secondUserId);
-        return _userInfoManager.CombineUserAndUserInfo((int)relation,userById, userInfoById);
-
-    }
-
-    public async Task UpdateUserInfo(UserInfoVo<IFormFile> userVo)
-    {
-        var unifiedId = userVo.unifiedId;
-
-        var userById = _userManager.GetUserById(unifiedId);
-        var userInfoById = _userInfoManager.GetUserInfoById(unifiedId);
-        if (userById == null||userInfoById==null)
-        {
-            throw new ApiException($"id为{unifiedId}用户不存在");
-        }
-        
-        var password = userVo.password;
-        if (!string.IsNullOrEmpty(password))
-        {
-            userById.Password = password;
-        }
-
-        var idCard = userVo.idCard;
-        if (string.IsNullOrEmpty(idCard))
-        {
-            userInfoById.IdCard = idCard;
-        }
-
-        var age = userVo.age;
-        if (age != null)
-        {
-            userInfoById.Age = age;
-        }
-
-        var email = userVo.email;
-        if (!string.IsNullOrEmpty(email))
-        {
-            userById.Email = email;
-        }
-
-        var gender = userVo.gender;
-        if (!string.IsNullOrEmpty(gender))
-        {
-            userInfoById.Gender = gender;
-        }
-
-        var briefInfo = userVo.briefInfo;
-
-        if (!string.IsNullOrEmpty(briefInfo))
-        {
-            userById.BriefInfo = briefInfo;
-        }
-
-        var livePlace = userVo.livePlace;
-        if (!string.IsNullOrEmpty(livePlace))
-        {
-            userInfoById.LivePlace = livePlace;
-        }
-
-        var phoneNum = userVo.phoneNum;
-        if (phoneNum!=null)
-        {
-            userInfoById.PhoneNum = phoneNum;
-        }
-
-        var prePosition = userVo.prePosition;
-        if (!string.IsNullOrEmpty(prePosition))
-        {
-            userInfoById.PrePosition = prePosition;
-        }
-
-        var trueName = userVo.trueName;
-        if (!string.IsNullOrEmpty(trueName))
-        {
-            userById.TrueName = trueName;
-        }
-
-        var uploadAvatar = Task.Run(() =>
-        {
-            var avatar = userVo.avatar;
-            if (avatar == null) return;
-            var url = OssHelper.UploadFile(avatar, BucketType.Avatar, unifiedId);
-            userById.Avatar = url;
-        });
-
-        var uploadBack = Task.Run(() =>
-        {
-            var background = userVo.back;
-            if (background == null) return;
-            var url = OssHelper.UploadFile(background, BucketType.Back, unifiedId);
-            userById.Background = url;
-        });
-        
-        await Task.WhenAll(uploadAvatar, uploadBack);
-        await _context.SaveChangesAsync();
-        
-    }
-
-    public Task<DB.Entity.User> GetUserOeEnterpriseInfo(int unifiedId)
-    {
-        var user = _context.Users.Select(o =>o)
-            .SingleOrDefault(o=>o.UnifiedId==unifiedId);
+        var user = _context.Users.Select(o => o)
+            .SingleOrDefault(o => o.UnifiedId == unifiedId);
         if (user == null)
         {
             throw new ApiException($"id为{unifiedId}的用户不存在");
         }
+        
+        var userDto = new UserDto
+        {
+            UnifiedId = user.UnifiedId,
+            UserBriefInfo = user.BriefInfo,
+            UserIconUrl = user.Avatar,
+            UserName = user.UserName,
+            UserType = user.UserType
+        };
 
-        return Task.FromResult(user);
+        return Task.FromResult(userDto);
+    }
+
+    public async Task SubscribeUser(int unifiedId, int subscribeId)
+    {
+        var (state, subscribed) = _subscribedManager.GetRelation(unifiedId, subscribeId);
+        switch (state)
+        {
+            case SubscribedState.SubScribed:
+                throw new ApiException("不能重复关注噢");
+            case SubscribedState.Same:
+                throw new ApiException("不能自己关注自己");
+            case SubscribedState.NoSubscribed:
+            default:
+                await _context.Subscribeds.AddAsync(subscribed!);
+                await _context.SaveChangesAsync();
+                break;
+        }
+    }
+
+    public async Task UnsubscribeUser(int unifiedId, int subscribeId)
+    {
+        var (state, relation) = _subscribedManager.GetRelation(unifiedId, subscribeId);
+        switch (state)
+        {
+            case SubscribedState.NoSubscribed:
+                throw new ApiException("不能重复取消关注噢");
+            case SubscribedState.Same:
+                throw new ApiException("不能自己取消关注自己");
+            case SubscribedState.SubScribed:
+            default:
+                _context.Subscribeds.Remove(relation!);
+                await _context.SaveChangesAsync();
+                break;
+        }
+    }
+
+    public async Task<List<RecommendUserVo>> GetRecommendList(int unifiedId)
+    {
+        var subscribed = _context.Subscribeds
+            .Where(o => o.FirstUserId == unifiedId)
+            .ToList();
+        var recommendUserVo = subscribed.Select(o =>
+        {
+            var secondUserId = o.SecondUserId;
+            var user = _context.Users.Single(u => u.UnifiedId == secondUserId);
+            return new RecommendUserVo
+            {
+                UnifiedId = secondUserId,
+                TrueName = user.TrueName,
+                UserAvatar = user.Avatar,
+                UserBriefInfo = user.BriefInfo,
+                UserType = user.UserType
+            };
+        }).ToList();
+        return _recommendManager.Transfer(recommendUserVo);
     }
 }

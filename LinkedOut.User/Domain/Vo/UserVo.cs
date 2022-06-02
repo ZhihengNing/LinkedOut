@@ -2,19 +2,19 @@
 
 public class UserVo<T>
 {
-    public int unifiedId { get; set; }
+    public int? UnifiedId { get; set; }
     
-    public string? password { get; set; }
+    public string? Password { get; set; }
     
-    public string? trueName { get; set; }
+    public string? TrueName { get; set; }
 
-    public int? isSubscribed { get; set; }
+    public int? IsSubscribed { get; set; }
 
-    public T? avatar { get; set; }
+    public T? Avatar { get; set; }
 
-    public T? back { get; set; }
+    public T? Back { get; set; }
 
-    public string? briefInfo { get; set; }
+    public string? BriefInfo { get; set; }
 
-    public string? email { get; set; }
+    public string? Email { get; set; }
 }
