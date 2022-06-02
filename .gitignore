@@ -5,3 +5,5 @@
 config.json
 appsettings.*.json
 !appsettings.Env.Template.json
+/**/Migrations/**
+LinkedOut.sln.DotSettings.user
