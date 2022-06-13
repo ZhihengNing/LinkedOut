@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using LinkedOut.Common.Api;
+﻿using LinkedOut.Common.Api;
 using LinkedOut.Common.Feign.User;
 using LinkedOut.Common.Helper;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +31,14 @@ public class TestController : ControllerBase
     {
         var existsObject = OssHelper.ExistsObject("tweet/8/简历.pdf");
 
+        Task.Run(() =>
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Console.WriteLine(2333);
+        });
         Console.WriteLine(existsObject);
         return 3;
     }
+    
+    
 }

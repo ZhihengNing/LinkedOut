@@ -8,22 +8,17 @@ public static class FileHelper
     //webapi项目就是不需要这个
     private const string BasicPath = "../../../";
 
-    public static async Task<string> ReadFile(string path,bool isWebApi=true)
+    public static async Task<string> ReadFile(string path, bool isWebApi = true)
     {
-        if (isWebApi)
-        {
-            return await File.ReadAllTextAsync(path);
-        }
+        return await File.ReadAllTextAsync(isWebApi ? path : BasicPath + path);
+    }
 
-        return await File.ReadAllTextAsync(BasicPath + path);
-    }
-    
-    public static JObject ReadJsonFile(string path)
+    public static JObject ReadJsonFile(string path, bool isWebApi = true)
     {
-        var streamReader = new StreamReader(path);
+        var streamReader = new StreamReader(isWebApi ? path : BasicPath + path);
         var jsonTextReader = new JsonTextReader(streamReader);
-        var jsonObject = (JObject) JToken.ReadFrom(jsonTextReader);
-        return jsonObject;
+        var json = (JObject) JToken.ReadFrom(jsonTextReader);
+        return json;
     }
-    
+
 }

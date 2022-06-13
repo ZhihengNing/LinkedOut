@@ -43,7 +43,7 @@ public class UserInfoController : ControllerBase
     }
 
     [NoTransaction]
-    [HttpGet("", Name = "查询用户信息")]
+    [HttpGet("todo", Name = "查询用户信息")]
     public async Task<MessageModel<DB.Entity.User>> QueryUserById([Required] int unifiedId)
     {
         

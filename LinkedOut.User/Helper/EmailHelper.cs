@@ -14,9 +14,9 @@ public static class EmailHelper
 
     private class EmailInfo
     {
-        public string Code { get; set; }
+        public string Code { get; set; } = null!;
 
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         public DateTime Date { get; set; }
     }
@@ -38,6 +38,11 @@ public static class EmailHelper
         if (email == null)
         {
             throw new ApiException("收件人的邮箱没写");
+        }
+
+        if (string.IsNullOrEmpty(code))
+        {
+            throw new ApiException("邮箱验证码为空");
         }
 
         var smtpClient = AppSettingHelper.App("email", "smtpClient");

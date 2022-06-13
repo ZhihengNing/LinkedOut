@@ -1,7 +1,9 @@
 ﻿using IGeekFan.AspNetCore.Knife4jUI;
 using LinkedOut.Common.Filter;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkedOut.Common.Config;
@@ -12,14 +14,23 @@ public static class BaseModelConfig
     {
         services.Configure<MvcOptions>(options =>
         {
-            options.Filters.Add<GlobalExceptionFilter>();
+            // options.Filters.Add<GlobalExceptionFilter>();
             options.Filters.Add<ApiExceptionFilter>();
             // options.Filters.Add<TransactionFilter>();
-            options.Filters.Add<TokenFilter>();
         });
 
+        services.Configure<FormOptions>(x =>
+        {
+            x.MultipartBodyLengthLimit = 1024 * 1024 * 1024;
+            x.ValueLengthLimit = int.MaxValue;
+        });
+        services.Configure<KestrelServerOptions>(options =>
+        {
+            options.Limits.MaxRequestBodySize = 1024 * 1024 * 1024;
+        });
         services.AddCors(options => options
-            .AddPolicy("cors", p => p.SetIsOriginAllowed(_ => true)
+            .AddPolicy("cors", 
+                p => p.SetIsOriginAllowed(_ => true)
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()

@@ -63,7 +63,7 @@ public class MessageModel<T>
 
     public static MessageModel<T?> Forbidden()
     {
-        return Failed(ResultCode.Forbbiden());
+        return Failed(ResultCode.Forbidden());
     }
 
 }

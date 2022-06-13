@@ -26,15 +26,15 @@ public class AppSettingHelper
                 return _configuration[string.Join(":", sections)];
             }
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             // ignored
         }
 
         return null;
     }
-    
-    
+
+
     public static List<T> App<T>(params string[] sections)
     {
         var list = new List<T>();

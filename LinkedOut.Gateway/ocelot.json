@@ -50,11 +50,8 @@
     }
   ],
   "GlobalConfiguration": {
-    "RequestIdKey": null,
     "ServiceDiscoveryProvider": {
-      "Type": "Nacos",
-      "Host": "127.0.0.1",
-      "Port": 8848
+      "Type": "Nacos"
     }
   }
 }

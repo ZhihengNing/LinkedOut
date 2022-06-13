@@ -35,7 +35,7 @@ public class ResultCode
         return Result(StatusCode.Failed,message);
     }
 
-    public static ResultCode Forbbiden(string?message=null)
+    public static ResultCode Forbidden(string?message=null)
     {
         return Result(StatusCode.Forbidden,message);
     }

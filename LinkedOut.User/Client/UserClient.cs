@@ -22,7 +22,7 @@ public class UserClient :  IUserFeignClient
     [HttpGet("demo")]
     public async Task<MessageModel<string>> Demo(string a)
     {
-        throw new ApiException(("error"));
+        // throw new ApiException(("error"));
         return MessageModel<string>.Success(a+"233");
     }
 

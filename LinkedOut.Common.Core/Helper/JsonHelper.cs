@@ -11,5 +11,15 @@ public static class JsonHelper
         return JsonConvert.DeserializeObject<JObject>(serializeObject);
     }
 
+    public static T ToObj<T>(this JObject jObject, string key)
+    {
+        if (key == null)
+        {
+            throw new ArgumentNullException();
+        }
+
+        return jObject.Value<JObject>(key)!.ToObject<T>()!;
+    }
+
 
 }

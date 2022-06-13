@@ -1,0 +1,20 @@
+﻿{
+  "oss": {
+    "endpoint": "xxx",
+    "accessKeyId": "xxx",
+    "accessKeySecret": "xxx",
+    "bucketName": "xxx"
+  },
+  "token": {
+    //是否开启鉴权
+    "enable": true,
+    //密钥
+    "SecretKey": "xxx",
+    //发起人：当前项目
+    "Issuer": "xxx",
+    //订阅：我们需要谁去使用这个Token
+    "Audience": "xxx",
+    //过期时间，单位s
+    "ExpiresTime": 60
+  }
+}

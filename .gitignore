@@ -2,8 +2,14 @@
 /**/bin/**
 *.csproj
 /**/obj/**
+
+###config file
 config.json
+!*.template.json
 appsettings.*.json
 !appsettings.Env.Template.json
+
+# efcore migrations
 /**/Migrations/**
+
 LinkedOut.sln.DotSettings.user

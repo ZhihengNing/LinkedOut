@@ -33,11 +33,6 @@ public class UserInfo
     /// 居住地(-分隔省市eg.河北-石家庄)
     /// </summary>
     public string? LivePlace { get; set; }
-    
-    /// <summary>
-    /// 简历，用逗号分割
-    /// </summary>
-    public string? Resume { get; set; }
     /// <summary>
     /// 创建时间
     /// </summary>

@@ -1,6 +1,7 @@
 ﻿using LinkedOut.Common.Config;
 using LinkedOut.Common.Domain;
 using LinkedOut.DB;
+using LinkedOut.DB.Helper;
 
 namespace LinkedOut.Recruitment.Config;
 
@@ -19,6 +20,7 @@ public static class ModelConfig
             ContactUrl = new Uri("https://www.baidu.com")
         });
         services.AddScoped<LinkedOutContext>();
+        services.AddScoped<AppFileManager>();
 
         return services;
     }

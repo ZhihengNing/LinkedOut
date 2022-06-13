@@ -1,6 +1,8 @@
 ﻿using LinkedOut.Common.Config;
 using LinkedOut.Common.Domain;
 using LinkedOut.DB;
+using LinkedOut.DB.Helper;
+using LinkedOut.Tweet.Manager;
 using LinkedOut.Tweet.Service;
 using LinkedOut.Tweet.Service.Impl;
 
@@ -22,6 +24,7 @@ public static class ModelConfig
         });
         
         services.AddScoped<LinkedOutContext>();
+        services.AddScoped<AppFileManager>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ITweetService, TweetService>();
 

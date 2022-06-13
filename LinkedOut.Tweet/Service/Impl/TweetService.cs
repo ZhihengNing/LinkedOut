@@ -1,29 +1,41 @@
 ﻿using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Exception;
-using LinkedOut.Common.Helper;
 using LinkedOut.DB;
+using LinkedOut.DB.Domain;
+using LinkedOut.DB.Helper;
 using LinkedOut.Tweet.Domain.Enum;
+using LinkedOut.Tweet.Manager;
 
 namespace LinkedOut.Tweet.Service.Impl;
 
 public class TweetService: ITweetService
 {
 
+    private readonly ILogger<TweetService> _logger;
+
     private readonly LinkedOutContext _context;
 
     private readonly LikeManager _likeManager;
 
-    public TweetService(LinkedOutContext context, LikeManager likeManager)
+    private readonly AppFileManager _appFileManager;
+
+    public TweetService(LinkedOutContext context, LikeManager likeManager, ILogger<TweetService> logger, AppFileManager appFileManager)
     {
         _context = context;
         _likeManager = likeManager;
+        _logger = logger;
+        _appFileManager = appFileManager;
     }
 
-    public Task<List<TweetVo>> GetSelfTweetList(int unifiedId)
+    public async Task<List<TweetVo>> GetSelfTweetList(int unifiedId)
     {
-        var tweets = _context.Tweets.Select(o=>o)
-            .Where(o=>o.UnifiedId==unifiedId).ToList();
-        throw new NotImplementedException();
+        var tweets = _context.Tweets.Select(o => o)
+            .Where(o => o.UnifiedId == unifiedId)
+            .Select(o => new TweetVo())
+            .ToList();
+
+        return tweets;
+
     }
 
     public async Task AddTweet(AddTweetVo addTweetVo)
@@ -32,23 +44,17 @@ public class TweetService: ITweetService
         var tweet = new DB.Entity.Tweet
         {
             Content = addTweetVo.Content,
-            UnifiedId = (int)unifiedId,
+            UnifiedId =  (int) unifiedId,
             CommentNum = 0,
             LikeNum = 0
         };
         _context.Tweets.Add(tweet);
         await _context.SaveChangesAsync();
-        var tweetId = tweet.Id;
-        var files = addTweetVo.Files;
         
-        if (files != null && files.Count != 0)
-        {
-            var results = files.AsParallel()
-                .Select(item => OssHelper.UploadFile(item, BucketType.Tweet, tweetId));
-            var join = string.Join(",", results);
-            tweet.PictureUrl = join;
-        }
-
+        var files = addTweetVo.Files;
+        _appFileManager.AddToAppFile(files,BucketType.Tweet,tweet.Id);
+        
+        _logger.LogInformation("保存完毕");
         await _context.SaveChangesAsync();
     }
 
@@ -59,14 +65,15 @@ public class TweetService: ITweetService
         {
             throw new ApiException($"不存在id为{tweetId}的动态");
         }
+
         _context.Tweets.Remove(tweet);
         await _context.SaveChangesAsync();
 
-        var tweetPictureUrl = tweet.PictureUrl;
-        if (tweetPictureUrl == null) return;
-        //todo 这个地方是什么情况
-        var strings = tweetPictureUrl.Split(",");
-        strings.AsParallel().ForAll(OssHelper.DeleteObject);
+
+        var urls = _context.AppFiles
+            .Where(o => o.AssociatedId == tweetId && o.FileType == (int) AppFileType.Tweet)
+            .Select(o => o.Url)
+            .ToList();
     }
 
     public async Task LikeTweet(int unifiedId, int tweetId)

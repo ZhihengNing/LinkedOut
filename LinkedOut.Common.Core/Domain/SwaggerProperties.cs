@@ -1,6 +1,6 @@
 ﻿namespace LinkedOut.Common.Domain;
 
-public class SwaggerProperties
+public record SwaggerProperties
 {
     /**
      * 文档标题

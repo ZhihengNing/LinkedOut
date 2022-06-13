@@ -1,7 +1,8 @@
-﻿
-using LinkedOut.DB;
+﻿using LinkedOut.DB;
 using LinkedOut.DB.Entity;
 using LinkedOut.Tweet.Domain.Enum;
+
+namespace LinkedOut.Tweet.Manager;
 
 public class LikeManager
 {

@@ -88,7 +88,6 @@ public partial class LinkedOutContext : DbContext
                 .HasComment("创建时间");
 
             entity.Property(e => e.FileType)
-                .HasMaxLength(255)
                 .HasColumnName("file_type")
                 .HasComment("文件类型（0是简历，1是动态）");
 
@@ -453,11 +452,6 @@ public partial class LinkedOutContext : DbContext
                 .HasColumnName("like_num")
                 .HasComment("喜欢数");
 
-            entity.Property(e => e.PictureUrl)
-                .HasMaxLength(255)
-                .HasColumnName("picture_url")
-                .HasComment("照片文件数组");
-
             entity.Property(e => e.UpdateTime)
                 .HasColumnType("datetime")
                 .HasColumnName("update_time")
@@ -571,11 +565,7 @@ public partial class LinkedOutContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("live_place")
                 .HasComment("居住地(-分隔省市eg.河北-石家庄)");
-
-            entity.Property(e => e.Resume)
-                .HasMaxLength(1000)
-                .HasColumnName("resume")
-                .HasComment("简历(用逗号分隔)");
+            
 
             entity.Property(e => e.PhoneNum)
                 .HasColumnName("phone_num")

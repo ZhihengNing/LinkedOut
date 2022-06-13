@@ -13,7 +13,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": false,
       //这里一定要0.0.0.0
-      "applicationUrl": "http://0.0.0.0:9020",
+      "applicationUrl": "http://*:9020",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

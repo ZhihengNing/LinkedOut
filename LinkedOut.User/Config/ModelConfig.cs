@@ -1,6 +1,7 @@
 ﻿using LinkedOut.Common.Config;
 using LinkedOut.Common.Domain;
 using LinkedOut.DB;
+using LinkedOut.DB.Helper;
 using LinkedOut.User.Manager;
 using LinkedOut.User.Service;
 using LinkedOut.User.Service.Impl;
@@ -22,6 +23,7 @@ public static class ModelConfig
             ContactUrl = new Uri("https://www.baidu.com")
         });
         services.AddScoped<LinkedOutContext>();
+        services.AddScoped<AppFileManager>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserInfoService, UserInfoService>();
         services.AddScoped<IEduService, EduService>();

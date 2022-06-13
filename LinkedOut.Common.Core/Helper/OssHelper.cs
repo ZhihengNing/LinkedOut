@@ -1,18 +1,16 @@
 ﻿using Aliyun.OSS;
 using Aliyun.OSS.Common;
-using LinkedOut.Common.Domain;
 using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Exception;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
-using Serilog;
 
 namespace LinkedOut.Common.Helper;
 
 public static class OssHelper
 {
     private static readonly JObject Json = FileHelper
-        .ReadJsonFile("LikedOut/LinkedOut.Common.Core/config.json")
+        .ReadJsonFile("../LinkedOut.Common.Core/config.json")
         .Value<JObject>("oss")!;
 
     private static readonly string Endpoint = Json.Value<string>("endpoint")!;
@@ -27,7 +25,7 @@ public static class OssHelper
     
     private static readonly OssClient Client = new(Endpoint, AccessKeyId, AccessKeySecret);
     
-    private static void PutObject(IFormFile file, string path)
+    private static void PutObject(IFormFile file, string key)
     {
         if (file == null)
         {
@@ -35,7 +33,7 @@ public static class OssHelper
         }
         try
         {
-            Client.PutObject(BucketName, path, file.OpenReadStream());
+            Client.PutObject(BucketName, key, file.OpenReadStream());
         }
         catch (System.Exception ex)
         {
@@ -45,6 +43,11 @@ public static class OssHelper
 
     public static string UploadFile(IFormFile file, BucketType bucketType, int id)
     {
+        if (file == null)
+        {
+            throw new ApiException("文件不能为空");
+        }
+
         var fileName = file.FileName;
         var path = BucketTypeHelper.GetBucketTypeStr(bucketType);
         path = $"{path}/{id}/{fileName}";
@@ -52,6 +55,17 @@ public static class OssHelper
         return Prefix + path;
     }
 
+    public static void DeleteObject(string key)
+    {
+        try
+        {
+            Client.DeleteObject(BucketName,key);
+        }
+        catch (System.Exception ex)
+        {
+            throw new ApiException(ex.Message);
+        }
+    }
 
     public static void CreateBucket(string bucketName)
     {
@@ -83,19 +97,7 @@ public static class OssHelper
 
         return false;
     }
-
-
-    public static void DeleteObject(string key)
-    {
-        try
-        {
-            Client.DeleteObject(BucketName,key);
-        }
-        catch (System.Exception ex)
-        {
-            throw new ApiException(ex.Message);
-        }
-    }
+    
 
     public static List<OssObjectSummary> ListObjects(string bucketName)
     {

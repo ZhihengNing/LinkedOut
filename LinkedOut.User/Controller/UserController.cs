@@ -23,22 +23,22 @@ public class UserController : ControllerBase
     [HttpPost("register", Name = "注册")]
     public async Task<MessageModel<int>> Register([FromBody] DB.Entity.User user)
     {
-        if (string.IsNullOrEmpty(user.Password))
+        if (string.IsNullOrWhiteSpace(user.Password))
         {
             throw new ValidateException("密码不能为空");
         }
 
-        if (string.IsNullOrEmpty(user.UserType))
+        if (string.IsNullOrWhiteSpace(user.UserType))
         {
             throw new ValidateException("用户类型不能为空");
         }
 
-        if (string.IsNullOrEmpty(user.Email))
+        if (string.IsNullOrWhiteSpace(user.Email))
         {
             throw new ValidateException("邮箱不能为空");
         }
         
-        if (string.IsNullOrEmpty(user.UserName))
+        if (string.IsNullOrWhiteSpace(user.UserName))
         {
             throw new ValidateException("用户名不能为空");
         }
@@ -51,17 +51,17 @@ public class UserController : ControllerBase
     [HttpPost("login", Name = "登录")]
     public async Task<MessageModel<object>> Login([FromBody] UserLoginVo user)
     {
-        if (string.IsNullOrEmpty(user.Password))
+        if (string.IsNullOrWhiteSpace(user.Password))
         {
             throw new ValidateException("密码不能为空");
         }
 
-        if (string.IsNullOrEmpty(user.UserType))
+        if (string.IsNullOrWhiteSpace(user.UserType))
         {
             throw new ValidateException("用户类型不能为空");
         }
         
-        if (string.IsNullOrEmpty(user.UserName))
+        if (string.IsNullOrWhiteSpace(user.UserName))
         {
             throw new ValidateException("用户名不能为空");
         }
@@ -99,7 +99,7 @@ public class UserController : ControllerBase
         return MessageModel.Success();
     }
 
-    [HttpGet("recommend")]
+    [HttpGet("recommend",Name="获取推荐关注列表")]
     public async Task<MessageModel<List<RecommendUserVo>>> QueryRecommendList([Required] int unifiedId)
     {
         var recommendUserVos = await _userService.GetRecommendList(unifiedId);

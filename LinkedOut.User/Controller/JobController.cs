@@ -1,7 +1,6 @@
 ﻿ using System.ComponentModel.DataAnnotations;
  using LinkedOut.Common.Api;
  using LinkedOut.Common.Exception;
- using LinkedOut.DB.Entity;
  using LinkedOut.User.Domain.Vo;
  using LinkedOut.User.Service;
  using Microsoft.AspNetCore.Mvc;

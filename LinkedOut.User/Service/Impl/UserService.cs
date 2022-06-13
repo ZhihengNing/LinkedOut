@@ -1,5 +1,4 @@
-﻿using LinkedOut.Common.Domain;
-using LinkedOut.Common.Exception;
+﻿using LinkedOut.Common.Exception;
 using LinkedOut.Common.Feign.User.Dto;
 using LinkedOut.Common.Helper;
 using LinkedOut.DB;
@@ -23,8 +22,7 @@ public class UserService : IUserService
 
     private readonly RecommendManager _recommendManager;
 
-    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager,
-        UserInfoManager userInfoManager, RecommendManager recommendManager)
+    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager, RecommendManager recommendManager)
     {
         _userManager = userManager;
         _context = context;
@@ -82,7 +80,6 @@ public class UserService : IUserService
         }
 
         var token = TokenHelper.GenerateToken(needUser.UnifiedId, userName, userType);
-        Console.WriteLine(token);
         response.Cookies.Append("token", token);
         return Task.CompletedTask;
     }

@@ -1,10 +1,10 @@
 ﻿using LinkedOut.Common.Api;
 using LinkedOut.Common.Feign.Exception;
-using LinkedOut.Common.Feign.Filter;
 using LinkedOut.Common.Feign.User.Dto;
 using SummerBoot.Feign.Attributes;
 
 namespace LinkedOut.Common.Feign.User;
+//这里如果无法调用可能是命名空间出了问题
 
 [FeignClient( ServiceName = "LinkedOut.User", 
     MicroServiceMode = true,

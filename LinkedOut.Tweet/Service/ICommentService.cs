@@ -1,5 +1,4 @@
 ﻿
-using LinkedOut.DB.Entity;
 using LinkedOut.Tweet.Domain.Vo;
 
 namespace LinkedOut.Tweet.Service;

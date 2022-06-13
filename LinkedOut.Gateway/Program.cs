@@ -1,6 +1,7 @@
 using LinkedOut.Common.Config;
 using LinkedOut.Common.Helper;
 using LinkedOut.Gateway.Config;
+using LinkedOut.Gateway.MiddleWare;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Nacos;
@@ -22,6 +23,7 @@ builder.Services.AddOcelot(
 
 var app = builder.Build();
 
+app.UseMiddleware<JwtMiddleware>();
 app.UseBasicModuleMiddleWare("Gateway");
 app.UseOcelot().Wait();
 app.Run();

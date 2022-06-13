@@ -11,10 +11,6 @@ public class Tweet
     /// </summary>
     public string? Content { get; set; }
     /// <summary>
-    /// 照片文件数组
-    /// </summary>
-    public string? PictureUrl { get; set; }
-    /// <summary>
     /// 用户Id
     /// </summary>
     public int UnifiedId { get; set; }
