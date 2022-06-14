@@ -1,6 +1,6 @@
 ﻿using LinkedOut.Common.Exception;
 
-namespace LinkedOut.Common.Domain.Enum;
+namespace LinkedOut.User.Domain.Enum;
 
 public enum UserType
 {

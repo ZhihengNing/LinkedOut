@@ -16,7 +16,10 @@ public interface IUserFeignClient
 {
     [GetMapping("/feign/userInfo")]
     Task<MessageModel<UserDto>> GetUserInfo([Query] int unifiedId);
-
+    
+    [GetMapping("/feign/subscribe")]
+    Task<MessageModel<List<UserDto>>> GetSubscribeUserId([Query] int unifiedId);
+    
     [FeignHandle]
     [GetMapping("/feign/demo")]
     Task<MessageModel<string>> Demo([Query] string a);

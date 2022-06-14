@@ -20,7 +20,7 @@ public class EnterpriseInfoManager
             .SingleOrDefault(o => o.UnifiedId == unifiedId);
     }
 
-    public EnterpriseInfoVo<string> CombineEnterAndEnterInfo(int isSubscribed, 
+    public EnterpriseInfoVo<string> CombineEnterpriseAndInfo(int isSubscribed, 
         int fansNum,
         int followNum,
         DB.Entity.User userById, 

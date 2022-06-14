@@ -22,14 +22,14 @@ public static class ModelConfig
             ContactName = "nzh",
             ContactUrl = new Uri("https://www.baidu.com")
         });
-        
+
         services.AddScoped<LinkedOutContext>();
         services.AddScoped<AppFileManager>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ITweetService, TweetService>();
 
         services.AddScoped<LikeManager>();
-        
+
         // services.AddScoped<IUserRpcClient>();
         return services;
     }

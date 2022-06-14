@@ -17,7 +17,7 @@ public class TokenHelper
     
     public static string GenerateToken(int unifiedId, string userName, string userType)
     {
-        var claim = new Claim[]
+        var claims = new Claim[]
         {
             new("unifiedId", unifiedId.ToString()),
             new("userName", userName),
@@ -27,7 +27,7 @@ public class TokenHelper
         var token = new JwtSecurityToken(
             issuer: Token.Issuer,
             audience: Token.Audience, //订阅：我们需要谁去使用这个Token
-            claims: claim, //声明的数组
+            claims: claims, //声明的数组
             expires: DateTime.Now.AddSeconds(Token.ExpiresTime),
             signingCredentials: new SigningCredentials(Key, SecurityAlgorithms.HmacSha256) //数字签名 第一部分是密钥，第二部分是加密方式
         );

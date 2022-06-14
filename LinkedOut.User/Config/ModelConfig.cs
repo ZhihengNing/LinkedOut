@@ -34,7 +34,6 @@ public static class ModelConfig
         services.AddScoped<SubscribedManager>();
         services.AddScoped<UserManager>();
         services.AddScoped<EnterpriseInfoManager>();
-        services.AddScoped<RecommendManager>();
 
         return services;
     }

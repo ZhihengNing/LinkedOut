@@ -45,7 +45,7 @@ public class EnterpriseService : IEnterpriseService
 
         var whenAll = await Task.WhenAll(fansNum, followNum);
         var combineEnterAndEnterInfo = _enterpriseInfoManager
-            .CombineEnterAndEnterInfo((int) subscribedState, whenAll[0], whenAll[1], enterpriseById,
+            .CombineEnterpriseAndInfo((int) subscribedState, whenAll[0], whenAll[1], enterpriseById,
                 enterpriseInfoById);
 
         return combineEnterAndEnterInfo;
@@ -54,7 +54,7 @@ public class EnterpriseService : IEnterpriseService
 
     public async Task UpdateEnterpriseInfo(EnterpriseInfoVo<IFormFile> enterpriseInfoVo)
     {
-        var unifiedId =(int) enterpriseInfoVo.UnifiedId;
+        var unifiedId = (int) enterpriseInfoVo.UnifiedId;
 
         var userById = _userManager.GetUserById(unifiedId);
         var enterpriseInfoById = _enterpriseInfoManager.GetEnterpriseInfoById(unifiedId);
@@ -75,30 +75,20 @@ public class EnterpriseService : IEnterpriseService
             userById.Email = email;
         }
 
-        var briefInfo = enterpriseInfoVo.BriefInfo;
-
-        if (!string.IsNullOrEmpty(briefInfo))
-        {
-            userById.BriefInfo = briefInfo;
-        }
-
         var trueName = enterpriseInfoVo.TrueName;
         if (!string.IsNullOrEmpty(trueName))
         {
             userById.TrueName = trueName;
         }
+        
+        var briefInfo = enterpriseInfoVo.BriefInfo;
+        userById.BriefInfo = briefInfo;
 
         var description = enterpriseInfoVo.Description;
-        if (!string.IsNullOrEmpty(description))
-        {
-            enterpriseInfoById.Description = description;
-        }
+        enterpriseInfoById.Description = description;
 
         var contactWay = enterpriseInfoVo.ContactWay;
-        if (!string.IsNullOrEmpty(contactWay))
-        {
-            enterpriseInfoById.ContactWay = contactWay;
-        }
+        enterpriseInfoById.ContactWay = contactWay;
 
         var uploadAvatar = Task.Run(() =>
         {

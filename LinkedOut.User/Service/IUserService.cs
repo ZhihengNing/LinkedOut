@@ -1,5 +1,4 @@
-﻿using LinkedOut.Common.Domain;
-using LinkedOut.Common.Feign.User.Dto;
+﻿using LinkedOut.Common.Feign.User.Dto;
 using LinkedOut.User.Domain.Vo;
 
 namespace LinkedOut.User.Service;
@@ -11,14 +10,21 @@ public interface IUserService
 
     Task Login(UserLoginVo user,HttpResponse response);
 
+    Task<List<UserVo<string>>> SearchUser(string keyword);
+
+    Task<UserVo<string>> GetUserBasicInfo(int unifiedId);
+
     Task<string> SendEmail(string email);
 
-    Task<UserDto> GetUserOeEnterpriseInfo(int unifiedId);
+    Task<UserDto> GetUserOrEnterpriseInfo(int unifiedId);
 
     Task SubscribeUser(int unifiedId, int subscribeId);
 
     Task UnsubscribeUser(int unifiedId, int subscribeId);
 
-    Task<List<RecommendUserVo>> GetRecommendList(int unifiedId);
+    Task<List<SubscribeUserVo>> GetRecommendList(int unifiedId);
 
+    Task<List<SubscribeUserVo>> GetSubscribeList(int unifiedId);
+
+    Task<List<SubscribeUserVo>> GetFansList(int unifiedId);
 }

@@ -129,11 +129,6 @@ public partial class LinkedOutContext : DbContext
                 .HasColumnName("resume_id")
                 .HasComment("简历Id");
 
-            entity.Property(e => e.ResumeName)
-                .HasMaxLength(255)
-                .HasColumnName("resume_name")
-                .HasComment("简历名称");
-
             entity.Property(e => e.UpdateTime)
                 .HasColumnType("datetime")
                 .HasColumnName("update_time")
@@ -345,11 +340,7 @@ public partial class LinkedOutContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnName("id")
                 .HasComment("岗位Id");
-
-            entity.Property(e => e.ContactWay)
-                .HasMaxLength(255)
-                .HasColumnName("contact_way")
-                .HasComment("联系方式");
+            
 
             entity.Property(e => e.CreateTime)
                 .HasColumnType("datetime")
@@ -369,11 +360,7 @@ public partial class LinkedOutContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("job_name")
                 .HasComment("工作名称");
-
-            entity.Property(e => e.Limitation)
-                .HasMaxLength(255)
-                .HasColumnName("limitation")
-                .HasComment("岗位限制");
+            
 
             entity.Property(e => e.PositionType)
                 .HasMaxLength(255)
@@ -389,11 +376,6 @@ public partial class LinkedOutContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("update_time")
                 .HasComment("更新时间");
-
-            entity.Property(e => e.Url)
-                .HasMaxLength(255)
-                .HasColumnName("url")
-                .HasComment("岗位图片");
 
             entity.Property(e => e.WorkPlace)
                 .HasMaxLength(255)

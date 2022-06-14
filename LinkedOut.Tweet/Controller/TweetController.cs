@@ -2,7 +2,6 @@
 using LinkedOut.Common.Api;
 using LinkedOut.Common.Attribute;
 using LinkedOut.Common.Exception;
-using LinkedOut.Common.Helper;
 using LinkedOut.Tweet.Domain.Vo;
 using LinkedOut.Tweet.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +30,7 @@ public class TweetController : ControllerBase
         
         return MessageModel<List<CommentVo>>.Success(commentVos);
     }
+    
     
     [HttpPost("comment", Name = "添加评论")]
     public async Task<MessageModel<object>> AddComment([FromBody]AddCommentVo comment)
@@ -63,7 +63,7 @@ public class TweetController : ControllerBase
         return MessageModel.Success();
     }
 
-    [HttpPost("Alike", Name = "点赞动态")]
+    [HttpPost("likes", Name = "点赞动态")]
     public async Task<MessageModel<object>> LikeTweet([Required]int unifiedId,[Required]int tweetId)
     {
         Console.WriteLine(unifiedId + "   " + tweetId);
@@ -73,7 +73,7 @@ public class TweetController : ControllerBase
         return MessageModel.Success();
     }
 
-    [HttpPost("unlike", Name = "取消点赞动态")]
+    [HttpDelete("likes", Name = "取消点赞动态")]
     public async Task<MessageModel<object>> UnLikeTweet([Required]int unifiedId, [Required]int tweetId)
     {
         Console.WriteLine(unifiedId + "   " + tweetId);

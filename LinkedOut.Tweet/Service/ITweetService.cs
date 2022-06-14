@@ -1,8 +1,12 @@
-﻿namespace LinkedOut.Tweet.Service;
+﻿using LinkedOut.Tweet.Domain.Vo;
+
+namespace LinkedOut.Tweet.Service;
 
 public interface ITweetService
 {
-    Task<List<TweetVo>> GetSelfTweetList(int unifiedId);
+    Task<List<UserTweetVo>> GetSelfTweetList(int visitorId,int intervieweeId,int momentId);
+    
+    Task<List<TweetVo>> GetSubscribeTweets(int unifiedId, int ?momentId, string? type);
     
     Task AddTweet(AddTweetVo addTweetVo);
     

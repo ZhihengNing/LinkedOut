@@ -40,4 +40,34 @@ public class AppFileManager
         _context.Add(appFile);
     }
 
+    //todo 这里删除有问题
+    public void DeleteAppFile(int associateId, AppFileType appFileType)
+    {
+        var appFiles = _context.AppFiles
+            .Where(o => o.AssociatedId == associateId && o.FileType == (int) appFileType)
+            .ToList();
+        _context.AppFiles.RemoveRange(appFiles);
+
+        appFiles.AsParallel().Select(o => o.Url).ForAll(OssHelper.DeleteObject);
+        _context.SaveChanges();
+    }
+
+    public List<string> GetTweetPictures(int tweetId)
+    {
+        return GetAssociateFiles(tweetId, AppFileType.Tweet);
+    }
+
+    public List<string> GetResumes(int resumeId)
+    {
+        return GetAssociateFiles(resumeId, AppFileType.Resume);
+    }
+
+    private List<string> GetAssociateFiles(int associateId, AppFileType type)
+    {
+        return _context.AppFiles
+            .Where(o => o.AssociatedId == associateId && o.FileType == (int) type)
+            .Select(o => o.Url)
+            .ToList();
+    }
+
 }

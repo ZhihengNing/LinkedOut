@@ -19,7 +19,7 @@ public class CommentService : ICommentService
         _userFeignClient = userFeignClient;
     }
 
-    public Task<List<CommentVo>> GetComment(int tweetId)
+    public async Task<List<CommentVo>> GetComment(int tweetId)
     {
         var comments = _context.Comments
             .Select(o => o)
@@ -45,9 +45,9 @@ public class CommentService : ICommentService
                     };
                 }
 
-                throw new ApiException("2333");
+                throw new ApiException("找不到对应的User信息");
             }).ToList();
-        return Task.FromResult(commentVos);
+        return commentVos;
     }
 
     public async Task AddComment(AddCommentVo commentVo)

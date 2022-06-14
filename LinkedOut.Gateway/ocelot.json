@@ -5,7 +5,7 @@
       "DownstreamPathTemplate": "/{url}",
       "DownstreamScheme": "http",
       "ServiceName": "LinkedOut.Recruitment",
-      "UpstreamPathTemplate": "/api/recruitment/{url}",
+      "UpstreamPathTemplate": "/api/recruit/{url}",
       "UpstreamHttpMethod": [
         "Get",
         "Post",

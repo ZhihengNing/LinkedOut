@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LinkedOut.Common.Api;
 using LinkedOut.Common.Exception;
+using LinkedOut.Tweet.Domain.Vo;
 using LinkedOut.Tweet.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,12 +17,25 @@ public class UserTweetController : ControllerBase
     {
         _tweetService = tweetService;
     }
-    
-    [HttpGet("")]
-    public async Task<MessageModel<DB.Entity.Tweet>> QueryTweet()
+
+    [HttpGet("one", Name = "获取自己的动态")]
+    public async Task<MessageModel<List<UserTweetVo>>> QuerySelfTweet([Required] int visitorId,
+        [Required] int intervieweeId, int momentId)
     {
-        return null;
+        var selfTweetList = await _tweetService.GetSelfTweetList(visitorId, intervieweeId, momentId);
+        return MessageModel<List<UserTweetVo>>.Success(selfTweetList);
     }
+
+    
+    [HttpGet("subscribe", Name = "获取我关注人的动态")]
+    public async Task<MessageModel<List<TweetVo>>> QuerySubscribeTweet([Required] int unifiedId,
+        int? momentId, string? type)
+    {
+        var subscribeTweets = await _tweetService.GetSubscribeTweets(unifiedId, momentId, type);
+
+        return MessageModel<List<TweetVo>>.Success(subscribeTweets);
+    }
+
 
     [HttpPost("", Name = "发布动态")]
     public async Task<MessageModel<object>> AddTweet([FromForm]AddTweetVo addTweetVo)

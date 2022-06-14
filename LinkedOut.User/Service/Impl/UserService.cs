@@ -7,6 +7,7 @@ using LinkedOut.User.Domain.Enum;
 using LinkedOut.User.Domain.Vo;
 using LinkedOut.User.Helper;
 using LinkedOut.User.Manager;
+using Microsoft.EntityFrameworkCore;
 using static LinkedOut.User.Helper.EmailHelper;
 
 namespace LinkedOut.User.Service.Impl;
@@ -20,14 +21,11 @@ public class UserService : IUserService
 
     private readonly SubscribedManager _subscribedManager;
 
-    private readonly RecommendManager _recommendManager;
-
-    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager, RecommendManager recommendManager)
+    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager)
     {
         _userManager = userManager;
         _context = context;
         _subscribedManager = subscribedManager;
-        _recommendManager = recommendManager;
     }
 
     public async Task<int> Register(DB.Entity.User user)
@@ -84,6 +82,47 @@ public class UserService : IUserService
         return Task.CompletedTask;
     }
 
+    public async Task<List<UserVo<string>>> SearchUser(string keyword)
+    {
+        //现根据余弦相似度排序一波,然后排序的结果再取前五个
+        var orderByDescending = _context.Users
+            .Select(o => new
+            {
+                User = o,
+                Score = SimilarityHelper.SimilarScoreCos(o.TrueName, keyword)
+            })
+            .OrderByDescending(o => o.Score)
+            .Take(5)
+            .ToList();
+
+        //最后转换为我们需要的数据
+        return orderByDescending.Select(o =>
+        {
+            var temp = o.User;
+            return new UserVo<string>
+            {
+                UnifiedId = temp.UnifiedId,
+                Avatar = temp.Avatar,
+                TrueName = temp.TrueName,
+                UserType = temp.UserType,
+                BriefInfo = temp.BriefInfo
+            };
+        }).ToList();
+    }
+
+    public async Task<UserVo<string>> GetUserBasicInfo(int unifiedId)
+    {
+        return _context.Users.Where(o => o.UnifiedId == unifiedId)
+            .Select(o => new UserVo<string>
+            {
+                UnifiedId = unifiedId,
+                TrueName = o.TrueName,
+                Avatar = o.Avatar,
+                BriefInfo = o.BriefInfo,
+                UserType = o.UserType
+            }).SingleOrDefault()!;
+    }
+
     public Task<string> SendEmail(string email)
     {
         if (_userManager.CheckEmailExist(email))
@@ -96,7 +135,7 @@ public class UserService : IUserService
         return Task.FromResult(result);
     }
 
-    public Task<UserDto> GetUserOeEnterpriseInfo(int unifiedId)
+    public Task<UserDto> GetUserOrEnterpriseInfo(int unifiedId)
     {
         var user = _context.Users.Select(o => o)
             .SingleOrDefault(o => o.UnifiedId == unifiedId);
@@ -104,13 +143,13 @@ public class UserService : IUserService
         {
             throw new ApiException($"id为{unifiedId}的用户不存在");
         }
-        
+
         var userDto = new UserDto
         {
             UnifiedId = user.UnifiedId,
-            UserBriefInfo = user.BriefInfo,
-            UserIconUrl = user.Avatar,
-            UserName = user.UserName,
+            BriefInfo = user.BriefInfo,
+            PictureUrl = user.Avatar,
+            TrueName = user.TrueName,
             UserType = user.UserType
         };
 
@@ -151,24 +190,89 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<List<RecommendUserVo>> GetRecommendList(int unifiedId)
+    public async Task<List<SubscribeUserVo>> GetRecommendList(int unifiedId)
     {
-        var subscribed = _context.Subscribeds
-            .Where(o => o.FirstUserId == unifiedId)
+        //根据自定义规则推荐用户，并给出推荐分值
+        var userInfos = _context.Users
+            .Select(o => new
+            {
+                User = o,
+                Score = _subscribedManager.RecommendScore(unifiedId, o,o.UserType)
+            })
             .ToList();
-        var recommendUserVo = subscribed.Select(o =>
+
+        //降序排列，去除掉已经关注过的,最后拿前五个出来
+        return userInfos
+            .OrderByDescending(o => o.Score)
+            .Where(o =>
+            {
+                var user = o.User;
+                var (subscribedState, _) =
+                    _subscribedManager.GetRelation(unifiedId, user.UnifiedId);
+                return subscribedState.Equals(SubscribedState.NoSubscribed);
+            })
+            .Select(o =>
+            {
+                var user = o.User;
+                return new SubscribeUserVo
+                {
+                    UnifiedId = user.UnifiedId,
+                    TrueName = user.TrueName,
+                    UserAvatar = user.Avatar,
+                    BriefInfo = user.BriefInfo,
+                    UserType = user.UserType
+                };
+            })
+            .Take(5)
+            .ToList();
+    }
+
+    public async Task<List<SubscribeUserVo>> GetSubscribeList(int unifiedId)
+    {
+        //获取用户关注的列表的每个用户Id
+        var subscribedUsers = _context.Subscribeds
+            .Where(o => o.FirstUserId == unifiedId)
+            .Select(o => o.SecondUserId)
+            .ToList();
+
+        //对于关注列表的每个人获取他们的基本信息
+        return subscribedUsers.Select(secondUserId =>
         {
-            var secondUserId = o.SecondUserId;
             var user = _context.Users.Single(u => u.UnifiedId == secondUserId);
-            return new RecommendUserVo
+            return new SubscribeUserVo
             {
                 UnifiedId = secondUserId,
                 TrueName = user.TrueName,
                 UserAvatar = user.Avatar,
-                UserBriefInfo = user.BriefInfo,
-                UserType = user.UserType
+                BriefInfo = user.BriefInfo,
+                UserType = user.UserType,
+                IsSubscribed = true
             };
         }).ToList();
-        return _recommendManager.Transfer(recommendUserVo);
+
+    }
+
+    public async Task<List<SubscribeUserVo>> GetFansList(int unifiedId)
+    {
+        //获取用户粉丝列表每个用户Id
+        var subscribedUsers = _context.Subscribeds
+            .Where(o => o.SecondUserId == unifiedId)
+            .Select(o => o.FirstUserId)
+            .ToList();
+
+        //对于关注列表的每个人获取他们的基本信息
+        return subscribedUsers.Select(secondUserId =>
+        {
+            var user = _context.Users.Single(u => u.UnifiedId == secondUserId);
+            return new SubscribeUserVo
+            {
+                UnifiedId = secondUserId,
+                TrueName = user.TrueName,
+                UserAvatar = user.Avatar,
+                BriefInfo = user.BriefInfo,
+                UserType = user.UserType,
+                IsSubscribed = true
+            };
+        }).ToList();
     }
 }

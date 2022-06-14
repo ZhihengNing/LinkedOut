@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LinkedOut.Common.Api;
 using LinkedOut.Common.Attribute;
-using LinkedOut.Common.Domain;
 using Microsoft.AspNetCore.Mvc;
 using LinkedOut.Common.Exception;
 using LinkedOut.User.Domain.Vo;
@@ -73,6 +72,22 @@ public class UserController : ControllerBase
         return MessageModel.Success();
     }
 
+    [HttpGet("search",Name ="搜索用户")]
+    public async Task<MessageModel<List<UserVo<string>>>> SearchUser([Required] string keyword)
+    {
+        var searchUsers = await _userService.SearchUser(keyword);
+
+        return MessageModel<List<UserVo<string>>>.Success(searchUsers);
+    }
+
+    [NoTransaction]
+    [HttpGet("get", Name = "获取用户基本信息")]
+    public async Task<MessageModel<UserVo<string>>> QueryUserById([Required] int unifiedId)
+    {
+        var userBasicInfo = await _userService.GetUserBasicInfo(unifiedId);
+        return MessageModel<UserVo<string>>.Success(userBasicInfo);
+    }
+
     [NoTransaction]
     [HttpPost("email", Name = "发送邮件")]
     public async Task<MessageModel<string>> SendEmail([Required] string email)
@@ -99,12 +114,31 @@ public class UserController : ControllerBase
         return MessageModel.Success();
     }
 
+    [NoTransaction]
     [HttpGet("recommend",Name="获取推荐关注列表")]
-    public async Task<MessageModel<List<RecommendUserVo>>> QueryRecommendList([Required] int unifiedId)
+    public async Task<MessageModel<List<SubscribeUserVo>>> QueryRecommendList([Required] int unifiedId)
     {
         var recommendUserVos = await _userService.GetRecommendList(unifiedId);
         
-        return MessageModel<List<RecommendUserVo>>.Success(recommendUserVos);
+        return MessageModel<List<SubscribeUserVo>>.Success(recommendUserVos);
+    }
+
+    [NoTransaction]
+    [HttpGet("follow",Name = "获取关注列表")]
+    public async Task<MessageModel<List<SubscribeUserVo>>> QuerySubscribeList([Required] int unifiedId)
+    {
+        var subscribeUserVos = await _userService.GetSubscribeList(unifiedId);
+        
+        return MessageModel<List<SubscribeUserVo>>.Success(subscribeUserVos);
+    }
+
+
+    [HttpGet("fans", Name = "获取粉丝列表")]
+    public async Task<MessageModel<List<SubscribeUserVo>>> QueryFansList([Required] int unifiedId)
+    {
+        var subscribeUserVos = await _userService.GetFansList(unifiedId);
+
+        return MessageModel<List<SubscribeUserVo>>.Success(subscribeUserVos);
     }
 
 

@@ -23,25 +23,13 @@ public class Position
     /// </summary>
     public string? Reward { get; set; }
     /// <summary>
-    /// 联系方式
-    /// </summary>
-    public string? ContactWay { get; set; }
-    /// <summary>
     /// 工作地点(-分隔省市eg.河北-石家庄）
     /// </summary>
     public string? WorkPlace { get; set; }
     /// <summary>
-    /// 岗位限制
-    /// </summary>
-    public string? Limitation { get; set; }
-    /// <summary>
     /// 企业Id
     /// </summary>
     public int? EnterpriseId { get; set; }
-    /// <summary>
-    /// 岗位图片
-    /// </summary>
-    public string? Url { get; set; }
     /// <summary>
     /// 创建时间
     /// </summary>

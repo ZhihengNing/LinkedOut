@@ -7,6 +7,8 @@ public class UserVo<T>
     public string? Password { get; set; }
     
     public string? TrueName { get; set; }
+    
+    public string? UserType { get; set; }
 
     public int? IsSubscribed { get; set; }
 

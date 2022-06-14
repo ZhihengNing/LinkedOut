@@ -54,65 +54,49 @@ public class UserInfoService : IUserInfoService
         }
 
         var password = userVo.Password;
-        if (!string.IsNullOrEmpty(password))
+        if (!string.IsNullOrWhiteSpace(password))
         {
             userById.Password = password;
         }
 
         var idCard = userVo.IdCard;
-        if (string.IsNullOrEmpty(idCard))
+        if (!string.IsNullOrWhiteSpace(idCard))
         {
             userInfoById.IdCard = idCard;
         }
 
-        var age = userVo.Age;
-        if (age != null)
-        {
-            userInfoById.Age = age;
-        }
-
         var email = userVo.Email;
-        if (!string.IsNullOrEmpty(email))
+        if (!string.IsNullOrWhiteSpace(email))
         {
             userById.Email = email;
         }
-
-        var gender = userVo.Gender;
-        if (!string.IsNullOrEmpty(gender))
-        {
-            userInfoById.Gender = gender;
-        }
-
-        var briefInfo = userVo.BriefInfo;
-
-        if (!string.IsNullOrEmpty(briefInfo))
-        {
-            userById.BriefInfo = briefInfo;
-        }
-
-        var livePlace = userVo.LivePlace;
-        if (!string.IsNullOrEmpty(livePlace))
-        {
-            userInfoById.LivePlace = livePlace;
-        }
-
-        var phoneNum = userVo.PhoneNum;
-        if (phoneNum != null)
-        {
-            userInfoById.PhoneNum = phoneNum;
-        }
-
-        var prePosition = userVo.PrePosition;
-        if (!string.IsNullOrEmpty(prePosition))
-        {
-            userInfoById.PrePosition = prePosition;
-        }
-
+        
         var trueName = userVo.TrueName;
-        if (!string.IsNullOrEmpty(trueName))
+        if (!string.IsNullOrWhiteSpace(trueName))
         {
             userById.TrueName = trueName;
         }
+        
+
+        //下面这些属性都可以为空
+        var age = userVo.Age;
+        userInfoById.Age = age;
+        
+        var gender = userVo.Gender;
+        userInfoById.Gender = gender;
+
+        var briefInfo = userVo.BriefInfo;
+        userById.BriefInfo = briefInfo;
+        
+        var livePlace = userVo.LivePlace;
+        userInfoById.LivePlace = livePlace;
+
+        var phoneNum = userVo.PhoneNum;
+        userInfoById.PhoneNum = phoneNum;
+        
+        var prePosition = userVo.PrePosition;
+        userInfoById.PrePosition = prePosition;
+        
 
         var uploadAvatar = Task.Run(() =>
         {

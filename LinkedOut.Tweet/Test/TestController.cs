@@ -1,9 +1,10 @@
 ﻿using LinkedOut.Common.Api;
 using LinkedOut.Common.Feign.User;
 using LinkedOut.Common.Helper;
+using LinkedOut.DB;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinkedOut.Tweet.Controller;
+namespace LinkedOut.Tweet.Test;
 
 [ApiController]
 [Route("demo")]
@@ -11,9 +12,12 @@ public class TestController : ControllerBase
 {
     private readonly IUserFeignClient _userFeignClient;
 
-    public TestController(IUserFeignClient userFeignClient)
+    private readonly LinkedOutContext _context;
+
+    public TestController(IUserFeignClient userFeignClient, LinkedOutContext context)
     {
         _userFeignClient = userFeignClient;
+        _context = context;
     }
 
     [HttpGet("test")]
@@ -39,6 +43,12 @@ public class TestController : ControllerBase
         Console.WriteLine(existsObject);
         return 3;
     }
-    
+
+    [HttpPost("nested")]
+    public async Task TestNested()
+    {
+        
+   
+    }
     
 }

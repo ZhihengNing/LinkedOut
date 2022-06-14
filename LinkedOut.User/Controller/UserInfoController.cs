@@ -12,9 +12,7 @@ namespace LinkedOut.User.Controller;
 [Route("userInfo")]
 public class UserInfoController : ControllerBase
 {
-
     private readonly IUserInfoService _userInfoService;
-
 
     public UserInfoController(IUserInfoService userInfoService)
     {
@@ -40,13 +38,5 @@ public class UserInfoController : ControllerBase
         await _userInfoService.UpdateUserInfo(userVo);
 
         return MessageModel.Success();
-    }
-
-    [NoTransaction]
-    [HttpGet("todo", Name = "查询用户信息")]
-    public async Task<MessageModel<DB.Entity.User>> QueryUserById([Required] int unifiedId)
-    {
-        
-        return MessageModel<DB.Entity.User>.Success();
     }
 }

@@ -23,16 +23,13 @@ public static class VerifyHelper
         {
             throw new ApiException(ResultCode.Unauthorized());
         }
-
-        Console.WriteLine(Token.Issuer);
-        Console.WriteLine(Token.Audience);
         var parameters = new TokenValidationParameters
         {
             ValidateAudience = true,
               
             ValidateIssuer = true,
-            // 验证过期时间
-            ValidateLifetime = false,
+            // 验证过期时间,上线的时候看情况设置token
+            ValidateLifetime = true,
             // 验证秘钥
             ValidateIssuerSigningKey = true,
             // 

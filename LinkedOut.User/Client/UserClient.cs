@@ -3,6 +3,7 @@ using LinkedOut.Common.Api;
 using LinkedOut.Common.Exception;
 using LinkedOut.Common.Feign.User;
 using LinkedOut.Common.Feign.User.Dto;
+using LinkedOut.User.Manager;
 using LinkedOut.User.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,19 @@ public class UserClient :  IUserFeignClient
 {
     private readonly IUserService _userService;
 
-    public UserClient(IUserService userService)
+    private readonly SubscribedManager _subscribedManager;
+
+    public UserClient(IUserService userService, SubscribedManager subscribedManager)
     {
         _userService = userService;
+        _subscribedManager = subscribedManager;
+    }
+
+    [HttpGet("subscribe")]
+    public async Task<MessageModel<List<UserDto>>> GetSubscribeUserId([Required] int unifiedId)
+    {
+        var subscribeUserIds = _subscribedManager.GetSubscribeUserIds(unifiedId);
+        return MessageModel<List<UserDto>>.Success(subscribeUserIds);
     }
 
     [HttpGet("demo")]
@@ -29,7 +40,7 @@ public class UserClient :  IUserFeignClient
     [HttpGet("userInfo")]
     public async Task<MessageModel<UserDto>> GetUserInfo([Required]int unifiedId)
     {
-        var userDto = await _userService.GetUserOeEnterpriseInfo(unifiedId);
+        var userDto = await _userService.GetUserOrEnterpriseInfo(unifiedId);
 
         return MessageModel<UserDto>.Success(userDto);
     }
