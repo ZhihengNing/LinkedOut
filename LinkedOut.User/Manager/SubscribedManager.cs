@@ -1,9 +1,7 @@
 ﻿using LinkedOut.Common.Exception;
-using LinkedOut.Common.Feign.User.Dto;
 using LinkedOut.DB;
 using LinkedOut.DB.Entity;
 using LinkedOut.User.Domain.Enum;
-using LinkedOut.User.Domain.Vo;
 using LinkedOut.User.Helper;
 
 namespace LinkedOut.User.Manager;
@@ -24,8 +22,8 @@ public class SubscribedManager
             return (SubscribedState.Same, null);
         }
 
-        var relation = _context.Subscribeds.Select(o => o)
-            .SingleOrDefault(o => o.FirstUserId == o.SecondUserId);
+        var relation = _context.Subscribeds
+            .SingleOrDefault(o => o.FirstUserId == firstUserId && o.SecondUserId == secondUserId);
         return relation == null ? (SubscribedState.NoSubscribed, null) : (SubscribedState.SubScribed, relation);
     }
 
@@ -63,21 +61,5 @@ public class SubscribedManager
         return score;
     }
 
-    public List<UserDto> GetSubscribeUserIds(int unifiedId)
-    {
-        return _context.Subscribeds
-            .Where(o => o.FirstUserId == unifiedId)
-            .Join(_context.Users,
-                s => s.SecondUserId,
-                u => u.UnifiedId,
-                (s, u) => new UserDto
-                {
-                    BriefInfo = u.BriefInfo,
-                    PictureUrl = u.Avatar,
-                    TrueName = u.TrueName,
-                    UnifiedId = u.UnifiedId,
-                    UserType = u.UserType
-                }).ToList();
-    }
-
+    
 }

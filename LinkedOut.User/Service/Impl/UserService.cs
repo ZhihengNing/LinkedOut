@@ -21,11 +21,14 @@ public class UserService : IUserService
 
     private readonly SubscribedManager _subscribedManager;
 
-    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager)
+    private readonly ILogger<UserService> _logger;
+
+    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager, ILogger<UserService> logger)
     {
         _userManager = userManager;
         _context = context;
         _subscribedManager = subscribedManager;
+        _logger = logger;
     }
 
     public async Task<int> Register(DB.Entity.User user)
@@ -34,8 +37,7 @@ public class UserService : IUserService
         {
             throw new ApiException("名字已经存在");
         }
-
-        user.SubscribeNum = 0;
+        
         _context.Add(user);
         await _context.SaveChangesAsync();
         var unifiedId = user.UnifiedId;
@@ -119,7 +121,8 @@ public class UserService : IUserService
                 TrueName = o.TrueName,
                 Avatar = o.Avatar,
                 BriefInfo = o.BriefInfo,
-                UserType = o.UserType
+                UserType = o.UserType,
+                Back = o.Background
             }).SingleOrDefault()!;
     }
 
@@ -135,10 +138,9 @@ public class UserService : IUserService
         return Task.FromResult(result);
     }
 
-    public Task<UserDto> GetUserOrEnterpriseInfo(int unifiedId)
+    public async Task<UserDto> GetUserOrEnterpriseInfo(int unifiedId)
     {
-        var user = _context.Users.Select(o => o)
-            .SingleOrDefault(o => o.UnifiedId == unifiedId);
+        var user = _context.Users.SingleOrDefault(o => o.UnifiedId == unifiedId);
         if (user == null)
         {
             throw new ApiException($"id为{unifiedId}的用户不存在");
@@ -153,12 +155,13 @@ public class UserService : IUserService
             UserType = user.UserType
         };
 
-        return Task.FromResult(userDto);
+        return userDto;
     }
 
     public async Task SubscribeUser(int unifiedId, int subscribeId)
     {
-        var (state, subscribed) = _subscribedManager.GetRelation(unifiedId, subscribeId);
+        var (state, _) = _subscribedManager.GetRelation(unifiedId, subscribeId);
+        
         switch (state)
         {
             case SubscribedState.SubScribed:
@@ -167,7 +170,12 @@ public class UserService : IUserService
                 throw new ApiException("不能自己关注自己");
             case SubscribedState.NoSubscribed:
             default:
-                await _context.Subscribeds.AddAsync(subscribed!);
+                var newRelation = new Subscribed
+                {
+                    FirstUserId = unifiedId,
+                    SecondUserId = subscribeId
+                };
+                await _context.Subscribeds.AddAsync(newRelation);
                 await _context.SaveChangesAsync();
                 break;
         }
@@ -274,5 +282,27 @@ public class UserService : IUserService
                 IsSubscribed = true
             };
         }).ToList();
+    }
+
+
+    public async Task<List<UserDto>> GetSubscribeUserIds(int unifiedId)
+    {
+        var list = _context.Subscribeds
+            .Where(o => o.FirstUserId == unifiedId)
+            .Join(_context.Users,
+                s => s.SecondUserId,
+                u => u.UnifiedId,
+                (s, u) => new UserDto
+                {
+                    BriefInfo = u.BriefInfo,
+                    PictureUrl = u.Avatar,
+                    TrueName = u.TrueName,
+                    UnifiedId = u.UnifiedId,
+                    UserType = u.UserType
+                }).ToList();
+        //还要包括自己的信息
+        var userDto = await GetUserOrEnterpriseInfo(unifiedId);
+        list.Add(userDto);
+        return list;
     }
 }

@@ -3,7 +3,11 @@
 *.csproj
 /**/obj/**
 
+x64
+/**/Debug/**
+
 ###config file
+dbConfig.json
 config.json
 !*.template.json
 appsettings.*.json

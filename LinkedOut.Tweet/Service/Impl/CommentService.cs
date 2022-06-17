@@ -58,6 +58,15 @@ public class CommentService : ICommentService
             Content = commentVo.Content,
             TweetId = commentVo.TweetId
         };
+        
+        var tweetId = comment.TweetId;
+        var tweet = _context.Tweets.SingleOrDefault(o=>o.Id==tweetId);
+        if (tweet == null)
+        {
+            throw new ApiException($"不存在Id为{tweetId}的动态");
+        }
+        tweet.CommentNum += 1;
+        
         await _context.Comments.AddAsync(comment);
 
         await _context.SaveChangesAsync();
@@ -72,7 +81,15 @@ public class CommentService : ICommentService
         {
             throw new ApiException($"不存在id为{commentId}的评论");
         }
-
+        
+        var tweetId = comment.TweetId;
+        var tweet = _context.Tweets.SingleOrDefault(o=>o.Id==tweetId);
+        if (tweet == null)
+        {
+            throw new ApiException($"不存在Id为{tweetId}的动态");
+        }
+        tweet.CommentNum -= 1;
+        
         _context.Comments.Remove(comment);
         await _context.SaveChangesAsync();
     }

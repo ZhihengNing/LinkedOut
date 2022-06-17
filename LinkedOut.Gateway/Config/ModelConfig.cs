@@ -19,7 +19,7 @@ public static class ModelConfig
             ContactName = "nzh",
             ContactUrl = new Uri("https://www.baidu.com")
         });
-
+        
         return services;
     }
 }

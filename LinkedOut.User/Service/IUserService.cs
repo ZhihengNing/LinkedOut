@@ -27,4 +27,6 @@ public interface IUserService
     Task<List<SubscribeUserVo>> GetSubscribeList(int unifiedId);
 
     Task<List<SubscribeUserVo>> GetFansList(int unifiedId);
+
+    Task<List<UserDto>> GetSubscribeUserIds(int unifiedId);
 }

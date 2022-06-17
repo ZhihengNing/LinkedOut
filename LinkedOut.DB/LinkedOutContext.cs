@@ -1,5 +1,7 @@
-﻿using LinkedOut.DB.Entity;
+﻿using LinkedOut.Common.Helper;
+using LinkedOut.DB.Entity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace LinkedOut.DB;
 
@@ -59,8 +61,9 @@ public partial class LinkedOutContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-            optionsBuilder.UseMySql("server=175.24.202.178;port=3306;database=linkedOut;user=root;password=123456", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.27-mysql"));
+            var connectionStr = FileHelper.ReadJsonFile("../LinkedOut.DB/dbConfig.json")
+                .Value<string>("connectionString")!;
+            optionsBuilder.UseMySql(connectionStr, ServerVersion.Parse("8.0.27-mysql"));
         }
     }
 
@@ -494,10 +497,6 @@ public partial class LinkedOutContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("user_type")
                 .HasComment("用户类型");
-
-            entity.Property(e => e.SubscribeNum)
-                .HasColumnName("subscribe_num")
-                .HasComment("关注的数量");
 
             entity.Property(e => e.TrueName)
                 .HasMaxLength(255)

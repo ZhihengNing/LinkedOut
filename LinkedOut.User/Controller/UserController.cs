@@ -97,7 +97,7 @@ public class UserController : ControllerBase
         return MessageModel<string>.Success(result);
     }
 
-    [HttpPut("subscription",Name="关注某人")]
+    [HttpPost("subscription",Name="关注某人")]
     public async Task<MessageModel<object>> SubscribeUser([Required] int unifiedId,
         [Required] int subscribeId)
     {

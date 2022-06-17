@@ -1,4 +1,6 @@
 ﻿using LinkedOut.Common.Api;
+using LinkedOut.Common.Domain;
+using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Feign.User;
 using LinkedOut.Common.Helper;
 using LinkedOut.DB;
@@ -44,11 +46,16 @@ public class TestController : ControllerBase
         return 3;
     }
 
-    [HttpPost("nested")]
-    public async Task TestNested()
+    [HttpPost("upload")]
+    public async Task<int> TestUpload(IFormFile file)
     {
-        
-   
+        ConsumerService.AddToQueue(new FileElement
+        {
+            AssociateId = 100,
+            BucketType = BucketType.Tweet,
+            File = file
+        });
+        return 3;
     }
-    
+
 }

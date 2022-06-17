@@ -1,5 +1,6 @@
 ﻿using IGeekFan.AspNetCore.Knife4jUI;
 using LinkedOut.Common.Filter;
+using LinkedOut.Common.Helper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,12 @@ public static class BaseModelConfig
 
         services.Configure<FormOptions>(x =>
         {
-            x.MultipartBodyLengthLimit = 1024 * 1024 * 1024;
+            x.MultipartBodyLengthLimit = int.MaxValue;
             x.ValueLengthLimit = int.MaxValue;
         });
         services.Configure<KestrelServerOptions>(options =>
         {
-            options.Limits.MaxRequestBodySize = 1024 * 1024 * 1024;
+            options.Limits.MaxRequestBodySize = int.MaxValue;
         });
         services.AddCors(options => options
             .AddPolicy("cors", 
@@ -39,6 +40,7 @@ public static class BaseModelConfig
         services.AddEndpointsApiExplorer();
         services.AddNewtonsoftJsonConfig();
         services.AddCors();
+        services.AddHostedService<ConsumerService>();
         return services;
     }
 

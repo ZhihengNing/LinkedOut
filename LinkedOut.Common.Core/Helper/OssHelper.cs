@@ -1,5 +1,6 @@
 ﻿using Aliyun.OSS;
 using Aliyun.OSS.Common;
+using LinkedOut.Common.Domain;
 using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Exception;
 using Microsoft.AspNetCore.Http;
@@ -24,35 +25,41 @@ public static class OssHelper
     private static readonly string Prefix = $"https://{BucketName}.{Endpoint}/";
     
     private static readonly OssClient Client = new(Endpoint, AccessKeyId, AccessKeySecret);
-    
+
     private static void PutObject(IFormFile file, string key)
     {
         if (file == null)
         {
             throw new ApiException("文件不能为空");
         }
-        try
-        {
-            Client.PutObject(BucketName, key, file.OpenReadStream());
-        }
-        catch (System.Exception ex)
-        {
-            throw new ApiException(ex.Message);
-        }
+        
+        Client.PutObject(BucketName, key, file.OpenReadStream());
     }
 
-    public static string UploadFile(IFormFile file, BucketType bucketType, int id)
+    public static string GetPath(FileElement fileElement)
     {
-        if (file == null)
+        if (fileElement?.File == null)
         {
             throw new ApiException("文件不能为空");
         }
 
-        var fileName = file.FileName;
-        var path = BucketTypeHelper.GetBucketTypeStr(bucketType);
-        path = $"{path}/{id}/{fileName}";
-        PutObject(file, path);
-        return Prefix + path;
+        var fileName = fileElement.File.FileName;
+        var path = BucketTypeHelper.GetBucketTypeStr(fileElement.BucketType);
+        return $"{Prefix}{path}/{fileElement.AssociateId}/{fileName}";
+    }
+
+    public static string UploadFile(FileElement fileElement)
+    {
+        if (fileElement.File == null)
+        {
+            throw new ApiException("文件不能为空");
+        }
+
+        var fileName = fileElement.File.FileName;
+        var path = BucketTypeHelper.GetBucketTypeStr(fileElement.BucketType);
+        path = $"{path}/{fileElement.AssociateId}/{fileName}";
+        PutObject(fileElement.File, path);
+        return $"{Prefix}{path}";
     }
 
     public static void DeleteObject(string key)

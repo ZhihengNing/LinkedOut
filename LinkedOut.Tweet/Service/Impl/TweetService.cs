@@ -1,8 +1,8 @@
 ﻿using LinkedOut.Common.Api;
+using LinkedOut.Common.Domain;
 using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Exception;
 using LinkedOut.Common.Feign.User;
-using LinkedOut.Common.Feign.User.Dto;
 using LinkedOut.Common.Helper;
 using LinkedOut.DB;
 using LinkedOut.DB.Domain;
@@ -69,78 +69,61 @@ public class TweetService : ITweetService
 
     private async Task<List<TweetVo>> GetAllTweetVos(int unifiedId)
     {
-        var userInfo = await _userFeignClient.GetUserInfo(unifiedId);
-        if (!userInfo.Code.Equals(ResultCode.Success().Code))
-        {
-            throw new ApiException($"不存在id为{unifiedId}的用户");
-        }
-
-        //获取所有关注的人的基本信息
+        //获取所有关注的人的基本信息(包括自己)
         var subscribeUsers = await _userFeignClient.GetSubscribeUserId(unifiedId);
         if (!subscribeUsers.Code.Equals(ResultCode.Success().Code))
         {
             throw new ApiException($"不存在id为{unifiedId}的用户");
         }
-
-        //这里要包括自己
+        
         var data = subscribeUsers.Data!;
-        data.Add(userInfo.Data!);
 
         _logger.LogInformation("成功走到了这里");
 
         //包括关注所有用户的动态
-        var userTweet = Task.Run(() =>
+        var userTweet = data.SelectMany(o =>
         {
-            return data.SelectMany(o =>
-            {
-                var id = o.UnifiedId;
-                return _context.Tweets
-                    .Where(t => t.UnifiedId == id)
-                    .ToList()
-                    .Select(t => (TweetVo) new UserTweetVo
-                    {
-                        Type = "tweet",
-                        TweetId = t.Id,
-                        SimpleUserInfo = o,
-                        CommentNum = t.CommentNum,
-                        Content = t.Content,
-                        LikeState = (int) _likeManager.GetRelation(unifiedId, t.Id).Item1,
-                        PictureList = _appFileManager.GetTweetPictures(t.Id),
-                        PraiseNum = t.LikeNum,
-                        RecordTime = t.CreateTime
-                    });
-            }).ToList();
-        });
+            var id = o.UnifiedId;
+            return _context.Tweets
+                .Where(t => t.UnifiedId == id)
+                .ToList()
+                .Select(t => (TweetVo) new UserTweetVo
+                {
+                    Type = "tweet",
+                    TweetId = t.Id,
+                    SimpleUserInfo = o,
+                    CommentNum = t.CommentNum,
+                    Content = t.Content,
+                    LikeState = (int) _likeManager.GetRelation(unifiedId, t.Id).Item1,
+                    PictureList = _appFileManager.GetTweetPictures(t.Id),
+                    PraiseNum = t.LikeNum,
+                    RecordTime = t.CreateTime
+                });
+        }).ToList();
 
         //包括关注所有公司的招聘启事
-        var enterpriseTweet = Task.Run(() =>
-        {
-            // return new List<TweetVo>();
-            return data
-                .Where(o => "company".Equals(o.UserType))
-                .SelectMany(o =>
-                {
-                    return _context.Positions
-                        .Where(p => p.EnterpriseId == o.UnifiedId)
-                        .ToList()
-                        .Select(t => (TweetVo) new EnterpriseTweetVo
-                        {
-                            Type = "position",
-                            TweetId = t.Id,
-                            JobName = t.JobName,
-                            PositionType = t.PositionType,
-                            RecordTime = t.CreateTime,
-                            Reward = t.Reward,
-                            SimpleUserInfo = o
-                        });
-                })
-                .ToList();
-        });
+        var enterpriseTweet = data.Where(o => "company".Equals(o.UserType))
+            .SelectMany(o =>
+            {
+                return _context.Positions
+                    .Where(p => p.EnterpriseId == o.UnifiedId)
+                    .ToList()
+                    .Select(t => (TweetVo) new EnterpriseTweetVo
+                    {
+                        Type = "position",
+                        TweetId = t.Id,
+                        JobName = t.JobName,
+                        PositionType = t.PositionType,
+                        RecordTime = t.CreateTime,
+                        Reward = t.Reward,
+                        SimpleUserInfo = o
+                    });
+            })
+            .ToList();
 
         //需要把两个数组，按照时间顺序排好
-        var whenAll = await Task.WhenAll(userTweet, enterpriseTweet);
 
-        return whenAll[0].Union(whenAll[1])
+        return userTweet.Union(enterpriseTweet)
             .OrderByDescending(o => o.RecordTime)
             .ToList();
     }
@@ -191,10 +174,9 @@ public class TweetService : ITweetService
         var files = addTweetVo.Files;
         _appFileManager.AddToAppFile(files, BucketType.Tweet, tweet.Id);
 
-        _logger.LogInformation("保存完毕");
         await _context.SaveChangesAsync();
     }
-    
+
     public async Task DeleteTweet(int tweetId)
     {
         var tweet = _context.Tweets.SingleOrDefault(o => o.Id == tweetId);
@@ -217,8 +199,15 @@ public class TweetService : ITweetService
         {
             throw new ApiException("不能重复点赞噢");
         }
-
         await _context.Likeds.AddAsync(liked!);
+
+        var tweet = _context.Tweets.SingleOrDefault(o=>o.Id==tweetId);
+        if (tweet == null)
+        {
+            throw new ApiException($"不存在Id为{tweetId}的动态");
+        }
+        tweet.LikeNum += 1;
+        
         await _context.SaveChangesAsync();
     }
 
@@ -229,9 +218,15 @@ public class TweetService : ITweetService
         {
             throw new ApiException("不能重复取消点赞噢");
         }
-
         _context.Likeds.Remove(liked!);
 
+        var tweet = _context.Tweets.SingleOrDefault(o=>o.Id==tweetId);
+        if (tweet == null)
+        {
+            throw new ApiException($"不存在Id为{tweetId}的动态");
+        }
+        tweet.LikeNum -= 1;
+        
         await _context.SaveChangesAsync();
     }
 }

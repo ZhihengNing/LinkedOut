@@ -1,4 +1,5 @@
-﻿using LinkedOut.Common.Domain.Enum;
+﻿using LinkedOut.Common.Domain;
+using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Exception;
 using LinkedOut.Common.Helper;
 using LinkedOut.DB;
@@ -19,7 +20,8 @@ public class EnterpriseService : IEnterpriseService
 
     private readonly LinkedOutContext _context;
 
-    public EnterpriseService(LinkedOutContext context, EnterpriseInfoManager enterpriseInfoManager, SubscribedManager subscribedManager, UserManager userManager)
+    public EnterpriseService(LinkedOutContext context, EnterpriseInfoManager enterpriseInfoManager,
+        SubscribedManager subscribedManager, UserManager userManager)
     {
         _context = context;
         _enterpriseInfoManager = enterpriseInfoManager;
@@ -80,7 +82,7 @@ public class EnterpriseService : IEnterpriseService
         {
             userById.TrueName = trueName;
         }
-        
+
         var briefInfo = enterpriseInfoVo.BriefInfo;
         userById.BriefInfo = briefInfo;
 
@@ -90,23 +92,37 @@ public class EnterpriseService : IEnterpriseService
         var contactWay = enterpriseInfoVo.ContactWay;
         enterpriseInfoById.ContactWay = contactWay;
 
-        var uploadAvatar = Task.Run(() =>
+        var avatar = Task.Run(() =>
         {
             var avatar = enterpriseInfoVo.Avatar;
             if (avatar == null) return;
-            var url = OssHelper.UploadFile(avatar, BucketType.Avatar, unifiedId!);
+            var fileElement = new FileElement
+            {
+                File = avatar,
+                BucketType = BucketType.Avatar,
+                AssociateId = unifiedId
+            };
+            
+            var url = OssHelper.UploadFile(fileElement);
             userById.Avatar = url;
         });
 
-        var uploadBack = Task.Run(() =>
+
+        var back = Task.Run(() =>
         {
             var background = enterpriseInfoVo.Back;
             if (background == null) return;
-            var url = OssHelper.UploadFile(background, BucketType.Back, unifiedId);
+            var fileElement = new FileElement
+            {
+                File = background,
+                BucketType = BucketType.Back,
+                AssociateId = unifiedId
+            };
+            var url = OssHelper.UploadFile(fileElement);
             userById.Background = url;
         });
 
-        await Task.WhenAll(uploadAvatar, uploadBack);
+        await Task.WhenAll(avatar, back);
         await _context.SaveChangesAsync();
     }
 }

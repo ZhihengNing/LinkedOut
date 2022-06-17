@@ -6,7 +6,7 @@ public class UserDto
 
     public string? TrueName { get; set; }
 
-    public string UserType { get; set; }
+    public string UserType { get; set; } = null!;
 
     public string? BriefInfo { get; set; }
 

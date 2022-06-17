@@ -26,7 +26,7 @@ public class UserClient :  IUserFeignClient
     [HttpGet("subscribe")]
     public async Task<MessageModel<List<UserDto>>> GetSubscribeUserId([Required] int unifiedId)
     {
-        var subscribeUserIds = _subscribedManager.GetSubscribeUserIds(unifiedId);
+        var subscribeUserIds = await _userService.GetSubscribeUserIds(unifiedId);
         return MessageModel<List<UserDto>>.Success(subscribeUserIds);
     }
 

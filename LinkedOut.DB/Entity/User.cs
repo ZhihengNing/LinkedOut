@@ -39,10 +39,6 @@ public class User
     /// </summary>
     public string? TrueName { get; set; }
     /// <summary>
-    /// 关注的数量
-    /// </summary>
-    public int? SubscribeNum { get; set; }
-    /// <summary>
     /// 背景图
     /// </summary>
     public string? Background { get; set; }

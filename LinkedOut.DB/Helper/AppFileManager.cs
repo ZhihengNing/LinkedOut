@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LinkedOut.Common.Domain;
 using LinkedOut.Common.Domain.Enum;
 using LinkedOut.Common.Helper;
 using LinkedOut.DB.Domain;
@@ -22,20 +23,26 @@ public class AppFileManager
 
         files.AsParallel().ForAll(item =>
         {
-            AddToAppFile(item,bucketType,associatedId);
+            AddToAppFile(new FileElement
+            {
+                File = item,
+                BucketType = bucketType,
+                AssociateId = associatedId
+            });
         });
     }
 
-    public void AddToAppFile(IFormFile? file, BucketType bucketType, [Required] int associatedId)
+    private void AddToAppFile(FileElement? fileElement)
     {
-        if (file == null) return;
-        var uploadFile = OssHelper.UploadFile(file, bucketType, associatedId);
+        if (fileElement?.File == null) return;
+
+        var path=OssHelper.UploadFile(fileElement);
         var appFile = new AppFile
         {
-            AssociatedId = associatedId,
+            AssociatedId = fileElement.AssociateId,
             FileType = (int) AppFileType.Tweet,
-            Url = uploadFile,
-            Name = file.FileName
+            Url = path,
+            Name = fileElement.File.FileName
         };
         _context.Add(appFile);
     }

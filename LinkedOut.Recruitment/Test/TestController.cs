@@ -1,7 +1,7 @@
 ﻿using LinkedOut.Common.Api;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinkedOut.Recruitment.Controller;
+namespace LinkedOut.Recruitment.Test;
 
 [ApiController]
 [Route("")]
