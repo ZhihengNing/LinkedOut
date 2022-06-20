@@ -1,4 +1,6 @@
 using LinkedOut.Common.Config;
+using LinkedOut.Common.Feign.Extension;
+using LinkedOut.Common.Feign.Middleware;
 using LinkedOut.Common.Helper;
 using LinkedOut.User.Config;
 using SummerBoot.Core;
@@ -18,6 +20,7 @@ builder.Services.AddSummerBootFeign(item =>
 
 var app = builder.Build();
 
+// app.UseMiddleware<FeignMiddleware>();
 app.UseBasicModuleMiddleWare("User");
 
 app.Run();

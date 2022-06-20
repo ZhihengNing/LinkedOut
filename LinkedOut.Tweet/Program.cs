@@ -1,4 +1,6 @@
 using LinkedOut.Common.Config;
+using LinkedOut.Common.Feign.Extension;
+using LinkedOut.Common.Feign.Middleware;
 using LinkedOut.Common.Helper;
 using LinkedOut.Tweet.Config;
 using SummerBoot.Core;

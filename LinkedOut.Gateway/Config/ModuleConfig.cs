@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinkedOut.Gateway.Config;
 
-public static class ModelConfig
+public static class ModuleConfig
 {
     public static IServiceCollection AddModuleService(this IServiceCollection services)
     {

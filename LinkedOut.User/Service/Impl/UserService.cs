@@ -138,7 +138,7 @@ public class UserService : IUserService
         return Task.FromResult(result);
     }
 
-    public async Task<UserDto> GetUserOrEnterpriseInfo(int unifiedId)
+    public async Task<UserDto> GetUserOrEnterpriseInfo(int? unifiedId)
     {
         var user = _context.Users.SingleOrDefault(o => o.UnifiedId == unifiedId);
         if (user == null)
@@ -304,5 +304,19 @@ public class UserService : IUserService
         var userDto = await GetUserOrEnterpriseInfo(unifiedId);
         list.Add(userDto);
         return list;
+    }
+
+    public async Task<List<string>> GetPrePosition(int unifiedId)
+    {
+        var userInfo = _context.UserInfos.SingleOrDefault(o => o.UnifiedId == unifiedId);
+
+        if (userInfo == null)
+        {
+            throw new ApiException($"不存在对应{unifiedId}的用户");
+        }
+
+        var prePosition = userInfo.PrePosition;
+
+        return string.IsNullOrWhiteSpace(prePosition) ? new List<string>() : prePosition.Split(",").ToList();
     }
 }

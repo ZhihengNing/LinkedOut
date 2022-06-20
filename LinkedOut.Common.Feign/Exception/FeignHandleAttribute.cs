@@ -1,24 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using LinkedOut.Common.Api;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
 namespace LinkedOut.Common.Feign.Exception;
 
-public class FeignHandleAttribute : System.Attribute, IResourceFilter
+public class FeignHandleAttribute : System.Attribute, IAsyncResultFilter
 {
+    private readonly ILogger<FeignHandleAttribute> _logger;
 
-    public void OnResourceExecuting(ResourceExecutingContext context)
+    public FeignHandleAttribute(ILogger<FeignHandleAttribute> logger)
     {
-        Console.WriteLine("进入了");
+        _logger = logger;
     }
 
-    public void OnResourceExecuted(ResourceExecutedContext context)
+    public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
     {
-        Console.WriteLine("退出了");
-        var exception = context.Exception;
-        
-        if (exception != null)
-        {
-            throw exception;
-        }
+        var contextResult = context.Result;
+
+        _logger.LogInformation(contextResult.ToString());
+        await next();
     }
 }

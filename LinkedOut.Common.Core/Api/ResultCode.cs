@@ -21,6 +21,7 @@ public class ResultCode
             StatusCode.Forbidden => new ResultCode(403, message??"没有权限访问"),
             StatusCode.ValidateFailed => new ResultCode(404, message??"参数校验失败"),
             StatusCode.Unauthorized => new ResultCode(400, message??"暂未登录或token已经过期"),
+            StatusCode.RemoteFailed=>new ResultCode(501,message??"远程调用失败"),
             _ => throw new ArgumentOutOfRangeException(nameof(code), code, null)
         };
     }
@@ -52,12 +53,19 @@ public class ResultCode
     }
 
 
+    public static ResultCode RemoteFailed(string? message = null)
+    {
+        return Result(StatusCode.RemoteFailed, message);
+    }
+
+
     public enum StatusCode
     {
         Success,
         Failed,
         Forbidden,
         ValidateFailed,
-        Unauthorized
+        Unauthorized,
+        RemoteFailed
     }
 }

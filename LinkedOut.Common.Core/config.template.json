@@ -6,8 +6,8 @@
     "bucketName": "xxx"
   },
   "token": {
-    //是否开启鉴权
-    "enable": true,
+    //是否开启鉴权，默认不开启
+    "enable": false,
     //密钥
     "SecretKey": "xxx",
     //发起人：当前项目

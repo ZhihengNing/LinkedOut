@@ -1,4 +1,5 @@
 ﻿using IGeekFan.AspNetCore.Knife4jUI;
+using LinkedOut.Common.Feign.Exception;
 using LinkedOut.Common.Filter;
 using LinkedOut.Common.Helper;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,7 @@ public static class BaseModelConfig
         {
             // options.Filters.Add<GlobalExceptionFilter>();
             options.Filters.Add<ApiExceptionFilter>();
+            // options.Filters.Add<FeignExceptionFilter>();
             // options.Filters.Add<TransactionFilter>();
         });
 

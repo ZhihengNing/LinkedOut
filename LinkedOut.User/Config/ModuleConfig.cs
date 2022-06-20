@@ -8,7 +8,7 @@ using LinkedOut.User.Service.Impl;
 
 namespace LinkedOut.User.Config;
 
-public static class ModelConfig
+public static class ModuleConfig
 {
     public static IServiceCollection AddModuleService(this IServiceCollection services)
     {

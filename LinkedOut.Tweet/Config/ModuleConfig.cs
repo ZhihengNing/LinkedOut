@@ -8,7 +8,7 @@ using LinkedOut.Tweet.Service.Impl;
 
 namespace LinkedOut.Tweet.Config;
 
-public static class ModelConfig
+public static class ModuleConfig
 {
     public static IServiceCollection AddModuleService(this IServiceCollection services)
     {

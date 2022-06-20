@@ -48,7 +48,7 @@ public class TweetService : ITweetService
 
         //momentId不传的话默认是0,刚好满足业务需求
         return _context.Tweets
-            .Where(o => o.UnifiedId == intervieweeId && o.Id >= momentId)
+            .Where(o => o.UnifiedId == intervieweeId && o.Id < momentId)
             .ToList()
             .Select(o => new UserTweetVo
                 {
@@ -57,7 +57,9 @@ public class TweetService : ITweetService
                     CommentNum = o.CommentNum,
                     Content = o.Content,
                     LikeState = (int) _likeManager.GetRelation(visitorId, o.Id).Item1,
-                    PictureList = _appFileManager.GetTweetPictures(o.Id),
+                    PictureList = _appFileManager
+                        .GetTweetPictures(o.Id)
+                        .Select(o=>o.Url).ToList(),
                     PraiseNum = o.LikeNum,
                     RecordTime = o.CreateTime
                 }
@@ -95,7 +97,7 @@ public class TweetService : ITweetService
                     CommentNum = t.CommentNum,
                     Content = t.Content,
                     LikeState = (int) _likeManager.GetRelation(unifiedId, t.Id).Item1,
-                    PictureList = _appFileManager.GetTweetPictures(t.Id),
+                    PictureList = _appFileManager.GetTweetPictures(t.Id).Select(appFile=>appFile.Url).ToList(),
                     PraiseNum = t.LikeNum,
                     RecordTime = t.CreateTime
                 });
@@ -154,7 +156,7 @@ public class TweetService : ITweetService
 
         //我们只需要已经排好序后再筛选的九条
         return allTweetVos
-            .Where(o => (o.Type.Equals(type) && o.TweetId >= momentId) || !o.Type.Equals(type))
+            .Where(o => (o.Type.Equals(type) && o.TweetId < momentId) || !o.Type.Equals(type))
             .Take(9).ToList();
     }
 

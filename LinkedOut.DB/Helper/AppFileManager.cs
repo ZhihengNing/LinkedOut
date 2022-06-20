@@ -32,6 +32,16 @@ public class AppFileManager
         });
     }
 
+    public void AddToAppFile(IFormFile file, BucketType bucketType, int associatedId)
+    {
+        AddToAppFile(new FileElement
+        {
+            File = file,
+            BucketType = bucketType,
+            AssociateId = associatedId
+        });
+    }
+
     private void AddToAppFile(FileElement? fileElement)
     {
         if (fileElement?.File == null) return;
@@ -59,21 +69,20 @@ public class AppFileManager
         _context.SaveChanges();
     }
 
-    public List<string> GetTweetPictures(int tweetId)
+    public List<AppFile> GetTweetPictures(int tweetId)
     {
         return GetAssociateFiles(tweetId, AppFileType.Tweet);
     }
 
-    public List<string> GetResumes(int resumeId)
+    public List<AppFile> GetResumes(int resumeId)
     {
         return GetAssociateFiles(resumeId, AppFileType.Resume);
     }
 
-    private List<string> GetAssociateFiles(int associateId, AppFileType type)
+    private List<AppFile> GetAssociateFiles(int associateId, AppFileType type)
     {
         return _context.AppFiles
             .Where(o => o.AssociatedId == associateId && o.FileType == (int) type)
-            .Select(o => o.Url)
             .ToList();
     }
 

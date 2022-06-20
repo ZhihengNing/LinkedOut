@@ -1,7 +1,7 @@
 using LinkedOut.Common.Config;
 using LinkedOut.Common.Helper;
 using LinkedOut.Gateway.Config;
-using LinkedOut.Gateway.MiddleWare;
+using LinkedOut.Gateway.Middleware;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Nacos;

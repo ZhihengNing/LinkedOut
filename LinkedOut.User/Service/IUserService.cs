@@ -16,7 +16,7 @@ public interface IUserService
 
     Task<string> SendEmail(string email);
 
-    Task<UserDto> GetUserOrEnterpriseInfo(int unifiedId);
+    Task<UserDto> GetUserOrEnterpriseInfo(int? unifiedId);
 
     Task SubscribeUser(int unifiedId, int subscribeId);
 
@@ -29,4 +29,6 @@ public interface IUserService
     Task<List<SubscribeUserVo>> GetFansList(int unifiedId);
 
     Task<List<UserDto>> GetSubscribeUserIds(int unifiedId);
+
+    Task<List<string>> GetPrePosition(int unifiedId);
 }

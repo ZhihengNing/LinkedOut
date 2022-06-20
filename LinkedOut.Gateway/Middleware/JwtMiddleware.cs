@@ -2,7 +2,7 @@
 using LinkedOut.Common.Helper;
 using LinkedOut.Gateway.Helper;
 
-namespace LinkedOut.Gateway.MiddleWare;
+namespace LinkedOut.Gateway.Middleware;
 
 public class JwtMiddleware
 {
@@ -27,13 +27,14 @@ public class JwtMiddleware
         var template = paths?[^1];
 
         var token = context.Request.Cookies["token"];
-        
-        _logger.LogInformation("token:"+token);
+
+        _logger.LogInformation("token:" + token);
 
         if (template != null && (WhiteList.Count == 0 || WhiteList.Contains(template)))
         {
             await _next.Invoke(context);
         }
+
         try
         {
             VerifyHelper.VerifyToken(token);
@@ -41,6 +42,7 @@ public class JwtMiddleware
         catch (ApiException e)
         {
             _logger.LogInformation("token校验没通过qwq");
+            context.Response.StatusCode = 200;
             await context.Response.WriteAsJsonAsync(new
             {
                 e.Code,

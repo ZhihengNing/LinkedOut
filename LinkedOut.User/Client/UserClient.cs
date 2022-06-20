@@ -11,16 +11,21 @@ namespace LinkedOut.User.Client;
 
 [Route("feign")]
 [ApiController]
-public class UserClient :  IUserFeignClient
+public class UserClient : IUserFeignClient
 {
     private readonly IUserService _userService;
 
-    private readonly SubscribedManager _subscribedManager;
-
-    public UserClient(IUserService userService, SubscribedManager subscribedManager)
+    public UserClient(IUserService userService)
     {
         _userService = userService;
-        _subscribedManager = subscribedManager;
+    }
+
+    [HttpGet("prePosition")]
+    public async Task<MessageModel<List<string>>> GetUserPrePosition(int unifiedId)
+    {
+        var prePosition = await _userService.GetPrePosition(unifiedId);
+        
+        return MessageModel<List<string>>.Success(prePosition);
     }
 
     [HttpGet("subscribe")]
@@ -33,12 +38,12 @@ public class UserClient :  IUserFeignClient
     [HttpGet("demo")]
     public async Task<MessageModel<string>> Demo(string a)
     {
-        // throw new ApiException(("error"));
-        return MessageModel<string>.Success(a+"233");
+        throw new ApiException(("error"));
+        return MessageModel<string>.Success(a + "233");
     }
 
     [HttpGet("userInfo")]
-    public async Task<MessageModel<UserDto>> GetUserInfo([Required]int unifiedId)
+    public async Task<MessageModel<UserDto>> GetUserInfo([Required] int? unifiedId)
     {
         var userDto = await _userService.GetUserOrEnterpriseInfo(unifiedId);
 

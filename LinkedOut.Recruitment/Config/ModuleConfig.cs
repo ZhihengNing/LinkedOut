@@ -2,10 +2,12 @@
 using LinkedOut.Common.Domain;
 using LinkedOut.DB;
 using LinkedOut.DB.Helper;
+using LinkedOut.Recruitment.Service;
+using LinkedOut.Recruitment.Service.Impl;
 
 namespace LinkedOut.Recruitment.Config;
 
-public static class ModelConfig
+public static class ModuleConfig
 {
     public static IServiceCollection AddModuleService(this IServiceCollection services)
     {
@@ -22,6 +24,11 @@ public static class ModelConfig
         services.AddScoped<LinkedOutContext>();
         services.AddScoped<AppFileManager>();
 
+        services.AddScoped<IEnterprisePositionService, EnterprisePositionService>();
+        services.AddScoped<IUserRecruitmentService, UserRecruitmentService>();
+        services.AddScoped<IResumeService, ResumeService>();
+
+        services.AddScoped<PositionManager>();
         return services;
     }
 }
