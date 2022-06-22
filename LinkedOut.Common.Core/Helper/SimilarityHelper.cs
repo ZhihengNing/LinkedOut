@@ -1,4 +1,4 @@
-﻿namespace LinkedOut.User.Helper;
+﻿namespace LinkedOut.Common.Helper;
 
 public static class SimilarityHelper
 {
@@ -16,17 +16,19 @@ public static class SimilarityHelper
         }
 
         var asii = new HashSet<int>();
-        var text1Map = new Dictionary<int, int?>();
-        var text2Map = new Dictionary<int, int?>();
+        var text1Map = new Dictionary<int, int>();
+        var text2Map = new Dictionary<int, int>();
+
+
         foreach (int temp in text1)
         {
-            if (text1Map[temp] == null)
+            if (!text1Map.ContainsValue(temp))
             {
-                text1Map.Add(temp, 1);
+                text1Map.TryAdd(temp, 1);
             }
             else
             {
-                text1Map.Add(temp, text1Map[temp] + 1);
+                text1Map.TryAdd(temp, text1Map[temp] + 1);
             }
 
             asii.Add(temp);
@@ -34,13 +36,13 @@ public static class SimilarityHelper
 
         foreach (int temp in text2)
         {
-            if (text2Map[temp] == null)
+            if (!text2Map.ContainsValue(temp))
             {
-                text2Map.Add(temp, 1);
+                text2Map.TryAdd(temp, 1);
             }
             else
             {
-                text2Map.Add(temp, text2Map[temp] + 1);
+                text2Map.TryAdd(temp, text2Map[temp] + 1);
             }
 
             asii.Add(temp);
@@ -53,8 +55,9 @@ public static class SimilarityHelper
 
         foreach (var it in asii)
         {
-            var t1 = (int) (text1Map[it] == null ? 0 : text1Map[it]);
-            var t2 = (int) (text2Map[it] == null ? 0 : text2Map[it]);
+
+            var t1 = text1Map.ContainsValue(it) ? text1Map[it] : 0;
+            var t2 = text1Map.ContainsValue(it) ? text2Map[it] : 0;
             xy += t1 * t2;
             x += Math.Pow(t1, 2);
             y += Math.Pow(t2, 2);
@@ -64,7 +67,7 @@ public static class SimilarityHelper
         {
             return 0.0;
         }
-
+        
         return xy / Math.Sqrt(x * y);
     }
 }
