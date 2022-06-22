@@ -10,6 +10,8 @@ public class Test
     {
         var arr = new List<string>();
         
+        var combine = Path.Combine(AppContext.BaseDirectory,"dbConfig.json");
+        Console.WriteLine(combine);
         // var readFile = await FileHelper.ReadFile("mail.html",false);
         //
         // Console.WriteLine(readFile);

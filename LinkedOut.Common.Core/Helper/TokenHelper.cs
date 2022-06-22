@@ -8,8 +8,11 @@ namespace LinkedOut.Common.Helper;
 
 public class TokenHelper
 {
+    private static readonly string BasePath = 
+        Path.Combine(AppContext.BaseDirectory, "config.json");
+    
     public static readonly TokenProperties Token = FileHelper
-        .ReadJsonFile("../LinkedOut.Common.Core/config.json")
+        .ReadJsonFile(BasePath)
         .ToObj<TokenProperties>("token");
 
     public static readonly SymmetricSecurityKey Key = new(Encoding.UTF8.GetBytes(Token.SecretKey));

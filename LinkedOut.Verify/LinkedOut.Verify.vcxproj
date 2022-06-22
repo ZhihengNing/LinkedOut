@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{2F14DFAD-D0D9-40E6-B545-C6F4108906C6}</ProjectGuid>
+    <ProjectGuid>{BDFE0E61-7BB1-4DB0-94F2-DFEA6AAE1E63}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AddDll</RootNamespace>
+    <RootNamespace>LinkedOut.Verify</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -155,9 +155,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="email.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="add.h" />
+    <Content Include="LinkedOut.Verify.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

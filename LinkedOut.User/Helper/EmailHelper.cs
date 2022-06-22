@@ -1,10 +1,12 @@
 ﻿using System.Globalization;
 using System.Net;
 using System.Net.Mail;
+using System.Runtime.InteropServices;
 using LinkedOut.Common.Exception;
 using LinkedOut.Common.Helper;
 
 namespace LinkedOut.User.Helper;
+
 
 public static class EmailHelper
 {
@@ -12,6 +14,9 @@ public static class EmailHelper
 
     private const string BaseRandomStr = "abcdefghijklmnopqrstuvwxyz0123456789";
 
+    [DllImport("Dll/LinkedOut.Verify.dll", EntryPoint = "email")] // 导入dll文件
+    public static extern bool VerifyEmail(string s);
+    
     private class EmailInfo
     {
         public string Code { get; set; } = null!;

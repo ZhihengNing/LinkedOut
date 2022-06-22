@@ -5,10 +5,10 @@ namespace LinkedOut.Common.Domain.Enum;
 
 public enum BucketType
 {
+    Resume,
+    Tweet,
     Back,
     Avatar,
-    Resume,
-    Tweet
 }
 
 public static class BucketTypeHelper

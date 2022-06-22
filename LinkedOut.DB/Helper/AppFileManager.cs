@@ -50,11 +50,12 @@ public class AppFileManager
         var appFile = new AppFile
         {
             AssociatedId = fileElement.AssociateId,
-            FileType = (int) AppFileType.Tweet,
+            FileType = (int) fileElement.BucketType,
             Url = path,
             Name = fileElement.File.FileName
         };
         _context.Add(appFile);
+        _context.SaveChanges();
     }
 
     //todo 这里删除有问题

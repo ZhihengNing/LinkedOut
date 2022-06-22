@@ -1,4 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using LinkedOut.Common.Domain;
+using LinkedOut.Common.Helper;
+using LinkedOut.User.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkedOut.User.Test;
@@ -20,14 +23,21 @@ public class TestController : ControllerBase
     [HttpGet("")]
     public async Task TestDll()
     {
-        var add = DllMake.sub(3, 4);
+        var add = EmailHelper.VerifyEmail("1094554173@qq.com");
         Console.WriteLine(add);
+        var add1 = EmailHelper.VerifyEmail("p23");
+        Console.WriteLine(add1);
+        var sub = DllMake.sub(3,5);
+        Console.WriteLine(sub);
+        
     }
 
     [HttpGet("date")]
     public async Task<DateTime> TestDateTime(DateTime date)
     {
+        
         Console.WriteLine(date);
         return date;
     }
+    
 }

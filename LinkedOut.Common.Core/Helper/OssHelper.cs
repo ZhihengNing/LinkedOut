@@ -10,8 +10,11 @@ namespace LinkedOut.Common.Helper;
 
 public static class OssHelper
 {
+    private static readonly string BasePath = 
+        Path.Combine(AppContext.BaseDirectory, "config.json");
+    
     private static readonly JObject Json = FileHelper
-        .ReadJsonFile("../LinkedOut.Common.Core/config.json")
+        .ReadJsonFile(BasePath)
         .Value<JObject>("oss")!;
 
     private static readonly string Endpoint = Json.Value<string>("endpoint")!;

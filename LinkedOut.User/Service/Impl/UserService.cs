@@ -135,6 +135,10 @@ public class UserService : IUserService
 
     public Task<string> SendEmail(string email)
     {
+        if (!VerifyEmail(email))
+        {
+            throw new ApiException("邮箱格式不正确");
+        }
         if (_userManager.CheckEmailExist(email))
         {
             throw new ApiException("邮箱已被注册");

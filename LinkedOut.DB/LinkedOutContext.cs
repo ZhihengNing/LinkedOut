@@ -3,7 +3,6 @@ using LinkedOut.DB.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
-using Newtonsoft.Json.Linq;
 
 namespace LinkedOut.DB;
 
@@ -66,7 +65,8 @@ public partial class LinkedOutContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseLoggerFactory(LoggerFactory);
-            var connectionStr = FileHelper.ReadJsonFile("../LinkedOut.DB/dbConfig.json")
+            var combine = Path.Combine(AppContext.BaseDirectory,"dbConfig.json");
+            var connectionStr = FileHelper.ReadJsonFile(combine)
                 .Value<string>("connectionString")!;
             optionsBuilder.UseMySql(connectionStr, ServerVersion.Parse("8.0.27-mysql"));
         }
