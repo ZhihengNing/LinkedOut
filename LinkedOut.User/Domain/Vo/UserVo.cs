@@ -19,4 +19,8 @@ public class UserVo<T>
     public string? BriefInfo { get; set; }
 
     public string? Email { get; set; }
+    
+    public int? FansNum { get; set; }
+    
+    public int? FollowNum { get; set; }
 }

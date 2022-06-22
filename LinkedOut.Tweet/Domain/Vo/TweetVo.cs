@@ -19,7 +19,7 @@ public class UserTweetVo : TweetVo
 
     public int CommentNum { get; set; }
 
-    public string? Content { get; set; }
+    public string? Contents { get; set; }
 
     public List<string> PictureList { get; set; } = null!;
 }

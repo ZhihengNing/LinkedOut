@@ -43,7 +43,7 @@ public class JobService : IJobService
             EnterpriseName = jobExperienceVo.EnterpriseName,
             StartTime = jobExperienceVo.StartTime,
             EndTime = jobExperienceVo.EndTime,
-            UnifiedId = (int) jobExperienceVo.UnifiedId
+            UnifiedId = (int) jobExperienceVo.UnifiedId!
         };
         await _context.JobExperiences.AddAsync(jobExperience);
         await _context.SaveChangesAsync();
@@ -51,14 +51,13 @@ public class JobService : IJobService
 
     public async Task DeleteJobExperience(int jobExperienceId)
     {
-        var jobExperience = _context.JobExperiences.Select(o=>o)
-            .SingleOrDefault(o=>o.Id==jobExperienceId);
+        var jobExperience = _context.JobExperiences
+            .SingleOrDefault(o => o.Id == jobExperienceId);
         if (jobExperience == null) throw new ApiException($"不存在{jobExperienceId}的工作经历");
 
         _context.JobExperiences.Remove(jobExperience);
 
         await _context.SaveChangesAsync();
-        
     }
 }
 

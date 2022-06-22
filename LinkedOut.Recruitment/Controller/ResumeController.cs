@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LinkedOut.Recruitment.Controller;
 
 [ApiController]
-[Route("resume")]
+[Route("user/resume")]
 public class ResumeController : ControllerBase
 {
 
@@ -36,7 +36,8 @@ public class ResumeController : ControllerBase
 
 
     [HttpPost("",Name = "上传简历")]
-    public async Task<MessageModel<object>> AddResume([Required] int unifiedId, [Required] IFormFile file)
+    public async Task<MessageModel<object>> AddResume([Required] [FromForm] int unifiedId,
+        [Required] [FromForm]IFormFile file)
     {
         await _resumeService.InsertResume(unifiedId, file);
         

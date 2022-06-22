@@ -20,7 +20,6 @@ public class JobVo
 
 public class JobExperienceVo
 {
-
     public string? Description { get; set; }
 
     public string? PositionType { get; set; }

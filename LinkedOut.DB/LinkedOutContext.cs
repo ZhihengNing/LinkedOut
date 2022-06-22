@@ -1,6 +1,8 @@
 ﻿using LinkedOut.Common.Helper;
 using LinkedOut.DB.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 using Newtonsoft.Json.Linq;
 
 namespace LinkedOut.DB;
@@ -54,13 +56,16 @@ public partial class LinkedOutContext : DbContext
     public virtual DbSet<Position> Positions { get; set; } = null!;
     public virtual DbSet<Subscribed> Subscribeds { get; set; } = null!;
     public virtual DbSet<Tweet> Tweets { get; set; } = null!;
-    public virtual DbSet<User> Users { get; set; } = null!;
+    public virtual DbSet<Entity.User> Users { get; set; } = null!;
     public virtual DbSet<UserInfo> UserInfos { get; set; } = null!;
 
+    public static readonly LoggerFactory LoggerFactory = new(new[] { new DebugLoggerProvider() });
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
+            optionsBuilder.UseLoggerFactory(LoggerFactory);
             var connectionStr = FileHelper.ReadJsonFile("../LinkedOut.DB/dbConfig.json")
                 .Value<string>("connectionString")!;
             optionsBuilder.UseMySql(connectionStr, ServerVersion.Parse("8.0.27-mysql"));
@@ -355,8 +360,8 @@ public partial class LinkedOutContext : DbContext
                 .HasColumnName("description")
                 .HasComment("岗位描述");
 
-            entity.Property(e => e.EnterpriseId)
-                .HasColumnName("enterprise_id")
+            entity.Property(e => e.UnifiedId)
+                .HasColumnName("unifiedId")
                 .HasComment("企业Id");
 
             entity.Property(e => e.JobName)
@@ -447,7 +452,7 @@ public partial class LinkedOutContext : DbContext
                 .HasComment("用户Id");
         });
 
-        modelBuilder.Entity<User>(entity =>
+        modelBuilder.Entity<Entity.User>(entity =>
         {
             entity.HasKey(e => e.UnifiedId)
                 .HasName("PRIMARY");

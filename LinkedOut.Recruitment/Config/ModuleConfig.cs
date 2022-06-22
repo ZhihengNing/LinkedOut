@@ -27,8 +27,7 @@ public static class ModuleConfig
         services.AddScoped<IEnterprisePositionService, EnterprisePositionService>();
         services.AddScoped<IUserRecruitmentService, UserRecruitmentService>();
         services.AddScoped<IResumeService, ResumeService>();
-
-        services.AddScoped<PositionManager>();
+        
         return services;
     }
 }

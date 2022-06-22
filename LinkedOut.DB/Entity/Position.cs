@@ -29,7 +29,7 @@ public class Position
     /// <summary>
     /// 企业Id
     /// </summary>
-    public int? EnterpriseId { get; set; }
+    public int? UnifiedId { get; set; }
     /// <summary>
     /// 创建时间
     /// </summary>

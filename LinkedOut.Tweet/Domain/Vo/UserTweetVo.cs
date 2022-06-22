@@ -1,6 +1,4 @@
-﻿using LinkedOut.Common.Feign.User.Dto;
-
-namespace LinkedOut.Tweet.Domain.Vo;
+﻿namespace LinkedOut.Tweet.Domain.Vo;
 
 public class AddTweetVo
 {

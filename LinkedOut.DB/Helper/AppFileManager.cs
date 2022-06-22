@@ -21,7 +21,7 @@ public class AppFileManager
     {
         if (files == null || files.Count == 0) return;
 
-        files.AsParallel().ForAll(item =>
+        files.ForEach(item =>
         {
             AddToAppFile(new FileElement
             {
@@ -74,9 +74,9 @@ public class AppFileManager
         return GetAssociateFiles(tweetId, AppFileType.Tweet);
     }
 
-    public List<AppFile> GetResumes(int resumeId)
+    public List<AppFile> GetResumes(int unifiedId)
     {
-        return GetAssociateFiles(resumeId, AppFileType.Resume);
+        return GetAssociateFiles(unifiedId, AppFileType.Resume);
     }
 
     private List<AppFile> GetAssociateFiles(int associateId, AppFileType type)

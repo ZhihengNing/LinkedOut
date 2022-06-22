@@ -10,7 +10,7 @@ public class SubscribeUserVo
 
     public string? UserType { get; set; }
 
-    public string? UserAvatar { get; set; }
+    public string? Avatar { get; set; }
 
     public bool IsSubscribed { get; set; }
 }

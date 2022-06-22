@@ -20,7 +20,7 @@ public class UserInfoController : ControllerBase
     }
 
     [NoTransaction]
-    [HttpGet("", Name = "获取用户信息")]
+    [HttpGet("", Name = "获取用户详细信息")]
     public async Task<MessageModel<UserInfoVo<string>>> QueryUserInfo([Required] int uid, [Required] int sid)
     {
         var userInfo = await _userInfoService.GetUserInfo(uid, sid);
@@ -31,6 +31,7 @@ public class UserInfoController : ControllerBase
     [HttpPost("", Name = "修改用户信息")]
     public async Task<MessageModel<object>> ModifyUserInfo([FromForm] UserInfoVo<IFormFile> userVo)
     {
+        Console.WriteLine(userVo.Age);
         if (userVo.UnifiedId == null)
         {
             throw new ValidateException("用户Id不能为空");

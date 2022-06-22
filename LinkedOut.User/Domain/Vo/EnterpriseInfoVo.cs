@@ -7,7 +7,4 @@ public class EnterpriseInfoVo<T> : UserVo<T>
 
     public string? Description { get; set; }
     
-    public int? FansNum { get; set; }
-    
-    public int? FollowNum { get; set; }
 }

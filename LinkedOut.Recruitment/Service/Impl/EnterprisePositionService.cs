@@ -1,5 +1,6 @@
 ﻿using LinkedOut.Common.Api;
 using LinkedOut.Common.Exception;
+using LinkedOut.Common.Feign.Recruitment.Dto;
 using LinkedOut.Common.Feign.User;
 using LinkedOut.DB;
 using LinkedOut.DB.Domain;
@@ -8,7 +9,7 @@ using LinkedOut.Recruitment.Domain;
 
 namespace LinkedOut.Recruitment.Service.Impl;
 
-public class EnterprisePositionService: IEnterprisePositionService
+public class EnterprisePositionService : IEnterprisePositionService
 {
 
     private readonly LinkedOutContext _context;
@@ -24,7 +25,7 @@ public class EnterprisePositionService: IEnterprisePositionService
     public async Task InsertPosition(Position position)
     {
         await _context.Positions.AddAsync(position);
-        
+
         await _context.SaveChangesAsync();
     }
 
@@ -48,7 +49,6 @@ public class EnterprisePositionService: IEnterprisePositionService
             .ToList();
 
         var tasks = applications
-            .AsParallel()
             .Select(async o =>
             {
                 var resumeUrl = _context.AppFiles
@@ -94,11 +94,11 @@ public class EnterprisePositionService: IEnterprisePositionService
 
         if (momentId != null)
         {
-            predicate = o => o.EnterpriseId == unifiedId && o.Id <= momentId;
+            predicate = o => o.UnifiedId == unifiedId && o.Id <= momentId;
         }
         else
         {
-            predicate = o => o.EnterpriseId == unifiedId;
+            predicate = o => o.UnifiedId == unifiedId;
         }
 
         //需要降序排列所有的岗位，并且只要前九个
@@ -121,5 +121,19 @@ public class EnterprisePositionService: IEnterprisePositionService
             Position = o,
             UserDto = userInfo.Data!
         }).ToList();
+    }
+
+    public async Task<List<PositionDto>> GetPosition(int unifiedId)
+    {
+        return _context.Positions
+            .Where(o => o.UnifiedId == unifiedId)
+            .Select(o => new PositionDto
+            {
+                PositionType = o.PositionType,
+                CreateTime = o.CreateTime,
+                Id = o.Id,
+                JobName = o.JobName,
+                Reward = o.Reward
+            }).ToList();
     }
 }

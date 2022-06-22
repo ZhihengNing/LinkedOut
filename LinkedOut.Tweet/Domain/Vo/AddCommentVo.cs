@@ -4,7 +4,7 @@ public class AddCommentVo
 {
     public int? UnifiedId { get; set; }
 
-    public string? Content { get; set; }
+    public string? Contents { get; set; }
 
     public int? TweetId { get; set; }
 }

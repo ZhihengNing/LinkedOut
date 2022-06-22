@@ -19,7 +19,11 @@ public class UserInfoManager
             .SingleOrDefault(o => o.UnifiedId == unifiedId);
     }
     
-    public UserInfoVo<string> CombineUserAndUserInfo(int isSubscribed,DB.Entity.User userById, UserInfo userInfoById)
+    public UserInfoVo<string> CombineUserAndUserInfo(int isSubscribed,
+        int fansNum,
+        int followNum,
+        DB.Entity.User userById, 
+        UserInfo userInfoById)
     {
         return new UserInfoVo<string>
         {
@@ -35,7 +39,9 @@ public class UserInfoManager
             Email = userById.Email,
             BriefInfo = userById.BriefInfo,
             PhoneNum = userInfoById.PhoneNum,
-            TrueName = userById.TrueName
+            TrueName = userById.TrueName,
+            FansNum = fansNum,
+            FollowNum = followNum
         };
     }
 

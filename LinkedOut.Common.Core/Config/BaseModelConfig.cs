@@ -18,6 +18,7 @@ public static class BaseModelConfig
         {
             // options.Filters.Add<GlobalExceptionFilter>();
             options.Filters.Add<ApiExceptionFilter>();
+            options.Filters.Add<LogFilter>();
             // options.Filters.Add<FeignExceptionFilter>();
             // options.Filters.Add<TransactionFilter>();
         });

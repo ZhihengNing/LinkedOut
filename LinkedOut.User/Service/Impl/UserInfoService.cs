@@ -5,6 +5,7 @@ using LinkedOut.Common.Helper;
 using LinkedOut.DB;
 using LinkedOut.User.Domain.Vo;
 using LinkedOut.User.Manager;
+using Microsoft.EntityFrameworkCore;
 
 namespace LinkedOut.User.Service.Impl;
 
@@ -18,7 +19,8 @@ public class UserInfoService : IUserInfoService
 
     private readonly LinkedOutContext _context;
 
-    public UserInfoService(UserInfoManager userInfoManager, UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager)
+    public UserInfoService(UserInfoManager userInfoManager, UserManager userManager, LinkedOutContext context,
+        SubscribedManager subscribedManager)
     {
         _userInfoManager = userInfoManager;
         _userManager = userManager;
@@ -28,8 +30,6 @@ public class UserInfoService : IUserInfoService
 
     public async Task<UserInfoVo<string>> GetUserInfo(int firstUserId, int secondUserId)
     {
-        var userVo = new UserInfoVo<string>();
-
         var userInfoById = _userInfoManager.GetUserInfoById(secondUserId);
         var userById = _userManager.GetUserById(secondUserId);
 
@@ -38,9 +38,13 @@ public class UserInfoService : IUserInfoService
             throw new ApiException($"{firstUserId}或{secondUserId}为ID的某个用户不存在");
         }
 
-        var (state, _) = _subscribedManager.GetRelation(firstUserId, secondUserId);
-        return _userInfoManager.CombineUserAndUserInfo((int) state, userById, userInfoById);
+        var fansNum = await _context.Subscribeds.CountAsync(o => o.SecondUserId == secondUserId);
 
+        var followNum = await _context.Subscribeds.CountAsync(o => o.FirstUserId == secondUserId);
+
+        var (state, _) = _subscribedManager.GetRelation(firstUserId, secondUserId);
+        return _userInfoManager.CombineUserAndUserInfo((int) state, fansNum,
+            followNum, userById, userInfoById);
     }
 
     public async Task UpdateUserInfo(UserInfoVo<IFormFile> userVo)
@@ -78,25 +82,42 @@ public class UserInfoService : IUserInfoService
             userById.TrueName = trueName;
         }
 
-
-        //下面这些属性都可以为空
+        //下面这些属性都可以为空串
         var age = userVo.Age;
-        userInfoById.Age = age;
+        if (age != null)
+        {
+            userInfoById.Age = age;
+        }
 
         var gender = userVo.Gender;
-        userInfoById.Gender = gender;
+        if (gender!=null)
+        {
+            userInfoById.Gender = gender;
+        }
 
         var briefInfo = userVo.BriefInfo;
-        userById.BriefInfo = briefInfo;
+        if (briefInfo!=null)
+        {
+            userById.BriefInfo = briefInfo;
+        }
 
         var livePlace = userVo.LivePlace;
-        userInfoById.LivePlace = livePlace;
+        if (livePlace!=null)
+        {
+            userInfoById.LivePlace = livePlace;
+        }
 
         var phoneNum = userVo.PhoneNum;
-        userInfoById.PhoneNum = phoneNum;
+        if (phoneNum!=null)
+        {
+            userInfoById.PhoneNum = phoneNum;
+        }
 
         var prePosition = userVo.PrePosition;
-        userInfoById.PrePosition = prePosition;
+        if (prePosition!=null)
+        {
+            userInfoById.PrePosition = prePosition;
+        }
 
         var avatar = Task.Run(() =>
         {

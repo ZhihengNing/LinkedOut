@@ -27,7 +27,9 @@ public class EduService: IEduService
                     Major = edu.Major,
                     CollegeName = edu.CollegeName,
                     PictureUrl = user.Avatar,
-                    Id = edu.Id
+                    EduExperienceId = edu.Id,
+                    StartTime = edu.StartTime,
+                    EndTime = edu.EndTime
                 }
             ).ToList());
     }
@@ -50,7 +52,8 @@ public class EduService: IEduService
 
     public async Task DeleteEduExperience(int eduExperienceId)
     {
-        var one = _context.EduExperiences.Select(o => o)
+        var one = _context.EduExperiences
+            .Select(o => o)
             .SingleOrDefault(o => o.Id == eduExperienceId);
         if (one == null) throw new ApiException($"查询id为{eduExperienceId}的教育经历不存在");
         _context.EduExperiences.Remove(one);

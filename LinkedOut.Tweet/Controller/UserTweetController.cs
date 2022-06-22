@@ -18,11 +18,11 @@ public class UserTweetController : ControllerBase
         _tweetService = tweetService;
     }
 
-    [HttpGet("one", Name = "获取自己的动态")]
-    public async Task<MessageModel<List<UserTweetVo>>> QuerySelfTweet([Required] int visitorId,
-        [Required] int intervieweeId, int momentId)
+    [HttpGet("one", Name = "获取某个人的动态")]
+    public async Task<MessageModel<List<UserTweetVo>>> QueryOnesTweet([Required] int visitorId,
+        [Required] int intervieweeId, int? momentId)
     {
-        var selfTweetList = await _tweetService.GetSelfTweetList(visitorId, intervieweeId, momentId);
+        var selfTweetList = await _tweetService.GetOnesTweetList(visitorId, intervieweeId, momentId);
         return MessageModel<List<UserTweetVo>>.Success(selfTweetList);
     }
 
@@ -33,6 +33,8 @@ public class UserTweetController : ControllerBase
     {
         var subscribeTweets = await _tweetService.GetSubscribeTweets(unifiedId, momentId, type);
 
+        Console.WriteLine(subscribeTweets.Count);
+        subscribeTweets.ForEach(item=>Console.Write(item.Type));
         return MessageModel<List<TweetVo>>.Success(subscribeTweets);
     }
 

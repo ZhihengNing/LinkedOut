@@ -1,29 +1,54 @@
 ﻿using LinkedOut.Common.Api;
 using LinkedOut.Common.Exception;
 using LinkedOut.Common.Feign.User;
+using LinkedOut.Common.Helper;
 using LinkedOut.DB;
 using LinkedOut.DB.Entity;
 using LinkedOut.Recruitment.Domain;
 
 namespace LinkedOut.Recruitment.Service.Impl;
 
+class PositionScore
+{
+    public Position Position { get; set; }
+
+    public double Score { get; set; }
+}
+
 public class UserRecruitmentService : IUserRecruitmentService
 {
-
     private readonly LinkedOutContext _context;
 
     private readonly IUserFeignClient _userFeignClient;
 
-    private readonly PositionManager _positionManager;
-
-    public UserRecruitmentService(LinkedOutContext context, IUserFeignClient userFeignClient,
-        PositionManager positionManager)
+    public UserRecruitmentService(LinkedOutContext context, IUserFeignClient userFeignClient)
     {
         _context = context;
         _userFeignClient = userFeignClient;
-        _positionManager = positionManager;
     }
 
+    private async Task<PositionVo> GetCompanyPosition(Position? position)
+    {
+        if (position == null)
+        {
+            throw new ApiException("不存在这样的岗位");
+        }
+
+        var enterpriseId = position.UnifiedId;
+
+        var userInfo = await _userFeignClient.GetUserInfo(enterpriseId);
+
+        if (!userInfo.Code.Equals(ResultCode.Success().Code))
+        {
+            throw new ApiException("不存在");
+        }
+
+        return new PositionVo
+        {
+            UserDto = userInfo.Data!,
+            Position = position
+        };
+    }
 
     public async Task ApplyPosition(int userId, int resumeId, int jobId)
     {
@@ -58,11 +83,11 @@ public class UserRecruitmentService : IUserRecruitmentService
             .Where(o => o.UserId == unifiedId)
             .Select(o => o.JobId).ToList();
 
-        var positionVos = jobIds.AsParallel().Select(async o =>
+        var positionVos = jobIds.Select(async o =>
         {
             var position = _context.Positions.SingleOrDefault(p => p.Id == o);
 
-            return await _positionManager.GetCompanyPosition(position);
+            return await GetCompanyPosition(position);
         });
 
         return new List<PositionVo>(await Task.WhenAll(positionVos));
@@ -82,7 +107,14 @@ public class UserRecruitmentService : IUserRecruitmentService
         var userType = userDto.UserType;
 
         //找出所有的岗位
-        var positions = _context.Positions.ToList();
+        var positions = _context
+            .Positions
+            .Select(o => new PositionScore
+            {
+                Position = o,
+                Score = 0.0
+            })
+            .ToList();
 
         switch (userType)
         {
@@ -99,25 +131,22 @@ public class UserRecruitmentService : IUserRecruitmentService
 
                 var prePosition = userPrePosition.Data!;
                 //若没有职位偏好，返回一个随机的结果
-                if (prePosition.Count == 0)
-                {
-                    break;
-                }
 
-                //岗位按照实践顺序排列
-                positions = _context.Positions
-                    .Where(o => o.PositionType != null && prePosition.Contains(o.PositionType))
-                    .ToList();
+                positions.ForEach(o =>
+                {
+                    o.Score = SimilarityHelper.SimilarScoreCos(prePosition, o.Position.PositionType);
+                });
                 break;
         }
-
+        
+        Func<PositionScore, bool> condition = momentId == null ? o => true : o => o.Position.Id < momentId;
         //先筛选，后排序，再选前面10个
-        return positions.AsParallel()
-            .Where(o => o.Id < momentId)
-            .OrderByDescending(o => o.Id)
-            .Select(o => _positionManager.GetCompanyPosition(o).Result)
+        return positions
+            .Where(condition)
+            .OrderByDescending(o => o.Score)
+            .ThenByDescending(o => o.Position.Id)
+            .Select(o => GetCompanyPosition(o.Position).Result)
             .Take(10)
             .ToList();
-
     }
 }

@@ -35,12 +35,16 @@ public class TweetController : ControllerBase
     [HttpPost("comment", Name = "添加评论")]
     public async Task<MessageModel<object>> AddComment([FromBody]AddCommentVo comment)
     {
+        Console.Write(comment.Contents);
+        Console.WriteLine(comment.TweetId);
+        
+        Console.WriteLine(comment.UnifiedId);
         if (comment.UnifiedId == null)
         {
             throw new ValidateException("用户Id不能为空");
         }
 
-        if (string.IsNullOrEmpty(comment.Content))
+        if (string.IsNullOrEmpty(comment.Contents))
         {
             throw new ValidateException("评论内容不能为空");
         }
@@ -66,8 +70,6 @@ public class TweetController : ControllerBase
     [HttpPost("likes", Name = "点赞动态")]
     public async Task<MessageModel<object>> LikeTweet([Required]int unifiedId,[Required]int tweetId)
     {
-        Console.WriteLine(unifiedId + "   " + tweetId);
-        Console.WriteLine("================================");
         await _tweetService.LikeTweet(unifiedId, tweetId);
 
         return MessageModel.Success();

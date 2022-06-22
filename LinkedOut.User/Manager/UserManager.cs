@@ -31,8 +31,7 @@ public class UserManager
 
     public DB.Entity.User? GetUserById(int unifiedId)
     {
-        return _context.Users.Select(o => o)
-            .SingleOrDefault(o => o.UnifiedId == unifiedId);
+        return _context.Users.SingleOrDefault(o => o.UnifiedId == unifiedId);
     }
 
 

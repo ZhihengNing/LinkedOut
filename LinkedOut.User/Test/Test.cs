@@ -1,6 +1,4 @@
-﻿using HtmlAgilityPack;
-using LinkedOut.Common.Helper;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace LinkedOut.User.Test;
 
@@ -10,7 +8,8 @@ public class Test
     [Test]
     public async Task TestReadFile()
     {
-
+        var arr = new List<string>();
+        
         // var readFile = await FileHelper.ReadFile("mail.html",false);
         //
         // Console.WriteLine(readFile);

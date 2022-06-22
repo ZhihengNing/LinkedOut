@@ -4,7 +4,7 @@ namespace LinkedOut.Tweet.Service;
 
 public interface ITweetService
 {
-    Task<List<UserTweetVo>> GetSelfTweetList(int visitorId,int intervieweeId,int momentId);
+    Task<List<UserTweetVo>> GetOnesTweetList(int visitorId,int intervieweeId,int? momentId);
     
     Task<List<TweetVo>> GetSubscribeTweets(int unifiedId, int ?momentId, string? type);
     

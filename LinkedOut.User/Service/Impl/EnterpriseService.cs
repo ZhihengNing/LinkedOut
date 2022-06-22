@@ -41,13 +41,12 @@ public class EnterpriseService : IEnterpriseService
         var enterpriseInfoVo = new EnterpriseInfoVo<string>();
         var (subscribedState, _) = _subscribedManager.GetRelation(uid, sid);
 
-        var fansNum = _context.Subscribeds.CountAsync(o => o.FirstUserId == sid);
+        var fansNum = await _context.Subscribeds.CountAsync(o => o.SecondUserId == sid);
 
-        var followNum = _context.Subscribeds.CountAsync(o => o.SecondUserId == sid);
-
-        var whenAll = await Task.WhenAll(fansNum, followNum);
+        var followNum = await _context.Subscribeds.CountAsync(o => o.FirstUserId == sid);
+        
         var combineEnterAndEnterInfo = _enterpriseInfoManager
-            .CombineEnterpriseAndInfo((int) subscribedState, whenAll[0], whenAll[1], enterpriseById,
+            .CombineEnterpriseAndInfo((int) subscribedState, fansNum, followNum, enterpriseById,
                 enterpriseInfoById);
 
         return combineEnterAndEnterInfo;
@@ -56,7 +55,7 @@ public class EnterpriseService : IEnterpriseService
 
     public async Task UpdateEnterpriseInfo(EnterpriseInfoVo<IFormFile> enterpriseInfoVo)
     {
-        var unifiedId = (int) enterpriseInfoVo.UnifiedId;
+        var unifiedId = (int) enterpriseInfoVo.UnifiedId!;
 
         var userById = _userManager.GetUserById(unifiedId);
         var enterpriseInfoById = _enterpriseInfoManager.GetEnterpriseInfoById(unifiedId);
@@ -84,13 +83,22 @@ public class EnterpriseService : IEnterpriseService
         }
 
         var briefInfo = enterpriseInfoVo.BriefInfo;
-        userById.BriefInfo = briefInfo;
+        if (briefInfo != null)
+        {
+            userById.BriefInfo = briefInfo;
+        }
 
         var description = enterpriseInfoVo.Description;
-        enterpriseInfoById.Description = description;
+        if (description != null)
+        {
+            enterpriseInfoById.Description = description;
+        }
 
         var contactWay = enterpriseInfoVo.ContactWay;
-        enterpriseInfoById.ContactWay = contactWay;
+        if (contactWay != null)
+        {
+            enterpriseInfoById.ContactWay = contactWay;
+        }
 
         var avatar = Task.Run(() =>
         {
@@ -102,7 +110,7 @@ public class EnterpriseService : IEnterpriseService
                 BucketType = BucketType.Avatar,
                 AssociateId = unifiedId
             };
-            
+
             var url = OssHelper.UploadFile(fileElement);
             userById.Avatar = url;
         });

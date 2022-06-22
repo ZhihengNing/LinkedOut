@@ -22,15 +22,15 @@ public class CommentService : ICommentService
     public async Task<List<CommentVo>> GetComment(int tweetId)
     {
         var comments = _context.Comments
-            .Select(o => o)
-            .Where(o => o.TweetId == tweetId);
+            .Where(o => o.TweetId == tweetId)
+            .ToList();
 
         if (comments == null)
         {
             throw new ApiException($"不存在动态Id为{tweetId}的评论");
         }
 
-        var commentVos = comments.AsParallel()
+        var commentVos = comments
             .Select(o =>
             {
                 var data = _userFeignClient.GetUserInfo(o.UnifiedId).Result;
@@ -38,10 +38,10 @@ public class CommentService : ICommentService
                 {
                     return new CommentVo
                     {
-                        Content = o.Content,
+                        Contents = o.Content,
                         CommentId = o.Id,
-                        CreateTime = o.CreateTime,
-                        UserDto = data.Data!
+                        RecordTime = o.CreateTime,
+                        SimpleUserInfo = data.Data!
                     };
                 }
 
@@ -52,10 +52,10 @@ public class CommentService : ICommentService
 
     public async Task AddComment(AddCommentVo commentVo)
     {
-        var comment = new Comment()
+        var comment = new Comment
         {
-            UnifiedId = (int)commentVo.UnifiedId,
-            Content = commentVo.Content,
+            UnifiedId = (int)commentVo.UnifiedId!,
+            Content = commentVo.Contents,
             TweetId = commentVo.TweetId
         };
         

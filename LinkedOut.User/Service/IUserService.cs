@@ -8,9 +8,9 @@ public interface IUserService
 
     Task<int> Register(DB.Entity.User user);
 
-    Task Login(UserLoginVo user,HttpResponse response);
+    Task<UserLoginDetailVo> Login(UserLoginVo user,HttpResponse response);
 
-    Task<List<UserVo<string>>> SearchUser(string keyword);
+    Task<List<UserVo<string>>> SearchUser(string? keyword);
 
     Task<UserVo<string>> GetUserBasicInfo(int unifiedId);
 
@@ -30,5 +30,5 @@ public interface IUserService
 
     Task<List<UserDto>> GetSubscribeUserIds(int unifiedId);
 
-    Task<List<string>> GetPrePosition(int unifiedId);
+    Task<string?> GetPrePosition(int unifiedId);
 }

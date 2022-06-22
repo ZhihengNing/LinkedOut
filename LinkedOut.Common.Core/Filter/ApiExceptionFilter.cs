@@ -18,12 +18,13 @@ public class ApiExceptionFilter : IAsyncExceptionFilter
     {
         var contextException = context.Exception;
         if (contextException is not ApiException apiException) return Task.CompletedTask;
-        _logger.LogWarning("业务异常");
+        _logger.LogWarning("业务异常{Message}",apiException.Message);
         var result = new
         {
             apiException.Code,
             apiException.Message
         };
+        
         context.Result = new ObjectResult(result);
         //如果这样做了其他的异常拦截器就不会执行
         context.ExceptionHandled = true;

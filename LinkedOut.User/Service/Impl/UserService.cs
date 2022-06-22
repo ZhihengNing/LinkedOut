@@ -7,7 +7,7 @@ using LinkedOut.User.Domain.Enum;
 using LinkedOut.User.Domain.Vo;
 using LinkedOut.User.Helper;
 using LinkedOut.User.Manager;
-using Microsoft.EntityFrameworkCore;
+
 using static LinkedOut.User.Helper.EmailHelper;
 
 namespace LinkedOut.User.Service.Impl;
@@ -23,7 +23,8 @@ public class UserService : IUserService
 
     private readonly ILogger<UserService> _logger;
 
-    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager, ILogger<UserService> logger)
+    public UserService(UserManager userManager, LinkedOutContext context, SubscribedManager subscribedManager,
+        ILogger<UserService> logger)
     {
         _userManager = userManager;
         _context = context;
@@ -37,7 +38,7 @@ public class UserService : IUserService
         {
             throw new ApiException("名字已经存在");
         }
-        
+
         _context.Add(user);
         await _context.SaveChangesAsync();
         var unifiedId = user.UnifiedId;
@@ -65,11 +66,11 @@ public class UserService : IUserService
         return unifiedId;
     }
 
-    public Task Login(UserLoginVo user, HttpResponse response)
+    public async Task<UserLoginDetailVo> Login(UserLoginVo user, HttpResponse response)
     {
         var userName = user.UserName;
         var password = user.Password;
-        var userType = user.UserType;
+
         var needUser = _context.Users
             .Select(o => o)
             .SingleOrDefault(o => o.UserName == userName && o.Password == password);
@@ -79,15 +80,21 @@ public class UserService : IUserService
             throw new ApiException("用户名或密码错误");
         }
 
+        var userType = needUser.UserType;
         var token = TokenHelper.GenerateToken(needUser.UnifiedId, userName, userType);
         response.Cookies.Append("token", token);
-        return Task.CompletedTask;
+        return new UserLoginDetailVo
+        {
+            UserType = userType,
+            UnifiedId = needUser.UnifiedId
+        };
     }
 
-    public async Task<List<UserVo<string>>> SearchUser(string keyword)
+    public async Task<List<UserVo<string>>> SearchUser(string? keyword)
     {
         //现根据余弦相似度排序一波,然后排序的结果再取前五个
         var orderByDescending = _context.Users
+            .ToList()
             .Select(o => new
             {
                 User = o,
@@ -161,7 +168,7 @@ public class UserService : IUserService
     public async Task SubscribeUser(int unifiedId, int subscribeId)
     {
         var (state, _) = _subscribedManager.GetRelation(unifiedId, subscribeId);
-        
+
         switch (state)
         {
             case SubscribedState.SubScribed:
@@ -202,10 +209,11 @@ public class UserService : IUserService
     {
         //根据自定义规则推荐用户，并给出推荐分值
         var userInfos = _context.Users
+            .ToList()
             .Select(o => new
             {
                 User = o,
-                Score = _subscribedManager.RecommendScore(unifiedId, o,o.UserType)
+                Score = _subscribedManager.RecommendScore(unifiedId, o, o.UserType)
             })
             .ToList();
 
@@ -226,7 +234,7 @@ public class UserService : IUserService
                 {
                     UnifiedId = user.UnifiedId,
                     TrueName = user.TrueName,
-                    UserAvatar = user.Avatar,
+                    Avatar = user.Avatar,
                     BriefInfo = user.BriefInfo,
                     UserType = user.UserType
                 };
@@ -251,7 +259,7 @@ public class UserService : IUserService
             {
                 UnifiedId = secondUserId,
                 TrueName = user.TrueName,
-                UserAvatar = user.Avatar,
+                Avatar = user.Avatar,
                 BriefInfo = user.BriefInfo,
                 UserType = user.UserType,
                 IsSubscribed = true
@@ -276,7 +284,7 @@ public class UserService : IUserService
             {
                 UnifiedId = secondUserId,
                 TrueName = user.TrueName,
-                UserAvatar = user.Avatar,
+                Avatar = user.Avatar,
                 BriefInfo = user.BriefInfo,
                 UserType = user.UserType,
                 IsSubscribed = true
@@ -306,7 +314,7 @@ public class UserService : IUserService
         return list;
     }
 
-    public async Task<List<string>> GetPrePosition(int unifiedId)
+    public async Task<string?> GetPrePosition(int unifiedId)
     {
         var userInfo = _context.UserInfos.SingleOrDefault(o => o.UnifiedId == unifiedId);
 
@@ -315,8 +323,6 @@ public class UserService : IUserService
             throw new ApiException($"不存在对应{unifiedId}的用户");
         }
 
-        var prePosition = userInfo.PrePosition;
-
-        return string.IsNullOrWhiteSpace(prePosition) ? new List<string>() : prePosition.Split(",").ToList();
+        return userInfo.PrePosition;
     }
 }

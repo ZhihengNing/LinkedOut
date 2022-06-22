@@ -4,11 +4,11 @@ namespace LinkedOut.Tweet.Domain.Vo;
 
 public class CommentVo
 {
-    public UserDto? UserDto { get; set; }
+    public UserDto? SimpleUserInfo { get; set; }
 
     public int CommentId { get; set; }
 
-    public string? Content { get; set; }
+    public string? Contents { get; set; }
 
-    public DateTime? CreateTime { get; set; }
+    public DateTime? RecordTime { get; set; }
 }

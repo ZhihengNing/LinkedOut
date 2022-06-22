@@ -5,7 +5,7 @@ namespace LinkedOut.Recruitment.Domain;
 
 public class PositionVo
 {
-    public UserDto UserDto { get; set; }
-    
-    public Position Position { get; set; }
+    public UserDto UserDto { get; set; } = null!;
+
+    public Position Position { get; set; } = null!;
 }

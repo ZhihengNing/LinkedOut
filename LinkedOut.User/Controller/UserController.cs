@@ -42,22 +42,16 @@ public class UserController : ControllerBase
             throw new ValidateException("用户名不能为空");
         }
         
-
         return MessageModel<int>.Success(await _userService.Register(user));
     }
 
     [NoTransaction]
     [HttpPost("login", Name = "登录")]
-    public async Task<MessageModel<object>> Login([FromBody] UserLoginVo user)
+    public async Task<MessageModel<UserLoginDetailVo>> Login([FromBody] UserLoginVo user)
     {
         if (string.IsNullOrWhiteSpace(user.Password))
         {
             throw new ValidateException("密码不能为空");
-        }
-
-        if (string.IsNullOrWhiteSpace(user.UserType))
-        {
-            throw new ValidateException("用户类型不能为空");
         }
         
         if (string.IsNullOrWhiteSpace(user.UserName))
@@ -67,13 +61,13 @@ public class UserController : ControllerBase
 
         var response = HttpContext.Response;
 
-        await _userService.Login(user, response);
+        var userLoginDetailVo = await _userService.Login(user, response);
 
-        return MessageModel.Success();
+        return MessageModel<UserLoginDetailVo>.Success(userLoginDetailVo);
     }
 
     [HttpGet("search",Name ="搜索用户")]
-    public async Task<MessageModel<List<UserVo<string>>>> SearchUser([Required] string keyword)
+    public async Task<MessageModel<List<UserVo<string>>>> SearchUser(string? keyword)
     {
         var searchUsers = await _userService.SearchUser(keyword);
 
@@ -81,7 +75,7 @@ public class UserController : ControllerBase
     }
 
     [NoTransaction]
-    [HttpGet("get", Name = "获取用户基本信息")]
+    [HttpGet("basic", Name = "获取用户基本信息")]
     public async Task<MessageModel<UserVo<string>>> QueryUserById([Required] int unifiedId)
     {
         var userBasicInfo = await _userService.GetUserBasicInfo(unifiedId);
@@ -89,7 +83,7 @@ public class UserController : ControllerBase
     }
 
     [NoTransaction]
-    [HttpPost("email", Name = "发送邮件")]
+    [HttpGet("email", Name = "发送邮件")]
     public async Task<MessageModel<string>> SendEmail([Required] string email)
     {
         var result = await _userService.SendEmail(email);
@@ -98,8 +92,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("subscription",Name="关注某人")]
-    public async Task<MessageModel<object>> SubscribeUser([Required] int unifiedId,
-        [Required] int subscribeId)
+    public async Task<MessageModel<object>> SubscribeUser([Required] int unifiedId,[Required] int subscribeId)
     {
         await _userService.SubscribeUser(unifiedId,subscribeId);
         
