@@ -23,4 +23,11 @@ public class TestController : ControllerBase
         var add = DllMake.sub(3, 4);
         Console.WriteLine(add);
     }
+
+    [HttpGet("date")]
+    public async Task<DateTime> TestDateTime(DateTime date)
+    {
+        Console.WriteLine(date);
+        return date;
+    }
 }

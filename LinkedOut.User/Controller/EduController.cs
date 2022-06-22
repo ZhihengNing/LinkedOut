@@ -35,6 +35,11 @@ public class EduController : ControllerBase
         {
             throw new ValidateException("用户Id不能为空");
         }
+
+        if (eduExperience.CollegeName == null)
+        {
+            throw new ValidateException("学校名称不能为空");
+        }
         await _eduService.AddEduExperience(eduExperience);
 
         return MessageModel.Success();

@@ -21,11 +21,11 @@ public class UserClient : IUserFeignClient
     }
 
     [HttpGet("prePosition")]
-    public async Task<MessageModel<List<string>>> GetUserPrePosition(int unifiedId)
+    public async Task<MessageModel<string?>> GetUserPrePosition(int unifiedId)
     {
         var prePosition = await _userService.GetPrePosition(unifiedId);
         
-        return MessageModel<List<string>>.Success(prePosition);
+        return MessageModel<string?>.Success(prePosition);
     }
 
     [HttpGet("subscribe")]

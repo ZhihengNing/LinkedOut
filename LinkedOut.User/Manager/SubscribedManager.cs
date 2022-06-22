@@ -1,8 +1,10 @@
 ﻿using LinkedOut.Common.Exception;
+using LinkedOut.Common.Helper;
 using LinkedOut.DB;
 using LinkedOut.DB.Entity;
 using LinkedOut.User.Domain.Enum;
 using LinkedOut.User.Helper;
+using Microsoft.EntityFrameworkCore;
 
 namespace LinkedOut.User.Manager;
 
@@ -31,6 +33,7 @@ public class SubscribedManager
     public double RecommendScore(int unifiedId, DB.Entity.User user, string userType)
     {
         var self = _context.Users.SingleOrDefault(o => o.UnifiedId == unifiedId);
+        
         if (self == null)
         {
             throw new ApiException($"不存在id为{unifiedId}的用户");
@@ -41,7 +44,7 @@ public class SubscribedManager
         var score = 0.0;
         //别人的基本信息
         var userId = user.UnifiedId;
-
+        
         //对于不同角色，推荐的角度不同
         switch (userType)
         {

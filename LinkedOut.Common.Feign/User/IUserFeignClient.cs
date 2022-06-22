@@ -18,7 +18,7 @@ public interface IUserFeignClient
     Task<MessageModel<UserDto>> GetUserInfo([Query] int? unifiedId);
 
     [GetMapping("/feign/prePosition")]
-    Task<MessageModel<List<string>>> GetUserPrePosition([Query] int unifiedId);
+    Task<MessageModel<string?>> GetUserPrePosition([Query] int unifiedId);
 
     [GetMapping("/feign/subscribe")]
     Task<MessageModel<List<UserDto>>> GetSubscribeUserId([Query] int unifiedId);

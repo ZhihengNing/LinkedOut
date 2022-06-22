@@ -27,15 +27,21 @@
          return MessageModel<List<JobVo>>.Success(jobExperience);
      }
 
-     [HttpPost("",Name = "添加工作经历")]
+     [HttpPost("", Name = "添加工作经历")]
      public async Task<MessageModel<object>> AddJobExperience([FromBody] JobExperienceVo jobExperienceVo)
      {
          if (jobExperienceVo.UnifiedId == null)
          {
              throw new ValidateException("用户Id不能为空");
          }
+
+         if (jobExperienceVo.EnterpriseName == null)
+         {
+             throw new ValidateException("企业名字不能为空");
+         }
+
          await _jobService.InsertJobExperience(jobExperienceVo);
-         
+
          return MessageModel.Success();
      }
 

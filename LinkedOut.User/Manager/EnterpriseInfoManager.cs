@@ -16,7 +16,7 @@ public class EnterpriseInfoManager
 
     public EnterpriseInfo? GetEnterpriseInfoById(int? unifiedId)
     {
-        return _context.EnterpriseInfos.Select(o => o)
+        return _context.EnterpriseInfos
             .SingleOrDefault(o => o.UnifiedId == unifiedId);
     }
 
