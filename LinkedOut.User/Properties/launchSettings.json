@@ -12,7 +12,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "http://*:9060",
+      "applicationUrl": "http://locahost:9060",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

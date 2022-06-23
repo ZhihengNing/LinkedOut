@@ -15,9 +15,9 @@ public class GlobalExceptionFilter : IAsyncExceptionFilter
 
     public Task OnExceptionAsync(ExceptionContext context)
     {
-        _logger.LogError("系统异常");
         var contextException = context.Exception;
         var message = contextException.Message;
+        _logger.LogError("系统异常{Message}",message);
         var result = new
         {
             Code = 500,
