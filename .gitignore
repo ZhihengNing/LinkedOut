@@ -3,6 +3,8 @@
 *.csproj
 /**/obj/**
 
+.vs
+
 x64
 /**/Debug/**
 
